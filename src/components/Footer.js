@@ -34,7 +34,7 @@ function Footer ({
 		<div className={css(classes.footer)} {...props}>
 			{caption ? (
 				<figcaption className={css(classes.footerCaption)}>
-					{decodeURI(caption)}
+					{caption.replace('&lt','<').replace('&gt', '>')}
 				</figcaption>
 			) : <span />}
 			{imageCount}
