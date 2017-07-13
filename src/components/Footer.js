@@ -17,7 +17,7 @@ function Footer ({
 	if (!caption && !showCount) return null;
 
 	if(caption) {
-		console.log('2')
+		console.log(caption)
 	}
 
 	const classes = StyleSheet.create(deepMerge(defaultStyles, theme));
