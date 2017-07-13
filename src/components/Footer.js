@@ -33,7 +33,7 @@ function Footer ({
 	return (
 		<div className={css(classes.footer)} {...props}>
 			{caption ? (
-				<figcaption className={css(classes.footerCaption)} dangerouslySetInnerHTML={{__html: '<a href="google.ca">google</a>'}}>
+				<figcaption className={css(classes.footerCaption)} dangerouslySetInnerHTML={{__html: '<a href="https://www.flickr.com/photos/146447925@N07/33444308545/in/dateposted-public/">www.flickr.com/photos/146447925@N07/33444308545/in/datepo...</a>'}}>
 					
 				</figcaption>
 			) : <span />}
