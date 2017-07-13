@@ -1856,192 +1856,6 @@ module.exports = exports['default'];
 module.exports = require('./lib/static/prefixAll')
 
 },{"./lib/static/prefixAll":26}],34:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],35:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2131,12 +1945,12 @@ var CSSTransitionGroup = function (_React$Component) {
 CSSTransitionGroup.displayName = 'CSSTransitionGroup';
 
 
-CSSTransitionGroup.propTypes = propTypes;
+CSSTransitionGroup.propTypes = "production" !== "production" ? propTypes : {};
 CSSTransitionGroup.defaultProps = defaultProps;
 
 exports.default = CSSTransitionGroup;
 module.exports = exports['default'];
-},{"./CSSTransitionGroupChild":36,"./TransitionGroup":37,"./utils/PropTypes":39,"prop-types":undefined,"react":undefined}],36:[function(require,module,exports){
+},{"./CSSTransitionGroupChild":35,"./TransitionGroup":36,"./utils/PropTypes":38,"prop-types":undefined,"react":undefined}],35:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2362,12 +2176,11 @@ var CSSTransitionGroupChild = function (_React$Component) {
 CSSTransitionGroupChild.displayName = 'CSSTransitionGroupChild';
 
 
-CSSTransitionGroupChild.propTypes = propTypes;
+CSSTransitionGroupChild.propTypes = "production" !== "production" ? propTypes : {};
 
 exports.default = CSSTransitionGroupChild;
 module.exports = exports['default'];
-},{"./utils/PropTypes":39,"dom-helpers/class/addClass":10,"dom-helpers/class/removeClass":12,"dom-helpers/transition/properties":13,"dom-helpers/util/requestAnimationFrame":15,"prop-types":undefined,"react":undefined,"react-dom":undefined}],37:[function(require,module,exports){
-(function (process){
+},{"./utils/PropTypes":38,"dom-helpers/class/addClass":10,"dom-helpers/class/removeClass":12,"dom-helpers/transition/properties":13,"dom-helpers/util/requestAnimationFrame":15,"prop-types":undefined,"react":undefined,"react-dom":undefined}],36:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2421,21 +2234,18 @@ var TransitionGroup = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, _React$Component.call(this, props, context));
 
-    _this.performAppear = function (key) {
+    _this.performAppear = function (key, component) {
       _this.currentlyTransitioningKeys[key] = true;
 
-      var component = _this.childRefs[key];
-
       if (component.componentWillAppear) {
-        component.componentWillAppear(_this._handleDoneAppearing.bind(_this, key));
+        component.componentWillAppear(_this._handleDoneAppearing.bind(_this, key, component));
       } else {
-        _this._handleDoneAppearing(key);
+        _this._handleDoneAppearing(key, component);
       }
     };
 
-    _this._handleDoneAppearing = function (key) {
-      var component = _this.childRefs[key];
-      if (component && component.componentDidAppear) {
+    _this._handleDoneAppearing = function (key, component) {
+      if (component.componentDidAppear) {
         component.componentDidAppear();
       }
 
@@ -2445,25 +2255,22 @@ var TransitionGroup = function (_React$Component) {
 
       if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
         // This was removed before it had fully appeared. Remove it.
-        _this.performLeave(key);
+        _this.performLeave(key, component);
       }
     };
 
-    _this.performEnter = function (key) {
+    _this.performEnter = function (key, component) {
       _this.currentlyTransitioningKeys[key] = true;
 
-      var component = _this.childRefs[key];
-
       if (component.componentWillEnter) {
-        component.componentWillEnter(_this._handleDoneEntering.bind(_this, key));
+        component.componentWillEnter(_this._handleDoneEntering.bind(_this, key, component));
       } else {
-        _this._handleDoneEntering(key);
+        _this._handleDoneEntering(key, component);
       }
     };
 
-    _this._handleDoneEntering = function (key) {
-      var component = _this.childRefs[key];
-      if (component && component.componentDidEnter) {
+    _this._handleDoneEntering = function (key, component) {
+      if (component.componentDidEnter) {
         component.componentDidEnter();
       }
 
@@ -2473,28 +2280,25 @@ var TransitionGroup = function (_React$Component) {
 
       if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
         // This was removed before it had fully entered. Remove it.
-        _this.performLeave(key);
+        _this.performLeave(key, component);
       }
     };
 
-    _this.performLeave = function (key) {
+    _this.performLeave = function (key, component) {
       _this.currentlyTransitioningKeys[key] = true;
 
-      var component = _this.childRefs[key];
       if (component.componentWillLeave) {
-        component.componentWillLeave(_this._handleDoneLeaving.bind(_this, key));
+        component.componentWillLeave(_this._handleDoneLeaving.bind(_this, key, component));
       } else {
         // Note that this is somewhat dangerous b/c it calls setState()
         // again, effectively mutating the component before all the work
         // is done.
-        _this._handleDoneLeaving(key);
+        _this._handleDoneLeaving(key, component);
       }
     };
 
-    _this._handleDoneLeaving = function (key) {
-      var component = _this.childRefs[key];
-
-      if (component && component.componentDidLeave) {
+    _this._handleDoneLeaving = function (key, component) {
+      if (component.componentDidLeave) {
         component.componentDidLeave();
       }
 
@@ -2504,7 +2308,7 @@ var TransitionGroup = function (_React$Component) {
 
       if (currentChildMapping && currentChildMapping.hasOwnProperty(key)) {
         // This entered again before it fully left. Add it again.
-        _this.performEnter(key);
+        _this.keysToEnter.push(key);
       } else {
         _this.setState(function (state) {
           var newChildren = _extends({}, state.children);
@@ -2532,7 +2336,7 @@ var TransitionGroup = function (_React$Component) {
     var initialChildMapping = this.state.children;
     for (var key in initialChildMapping) {
       if (initialChildMapping[key]) {
-        this.performAppear(key);
+        this.performAppear(key, this.childRefs[key]);
       }
     }
   };
@@ -2563,32 +2367,38 @@ var TransitionGroup = function (_React$Component) {
   };
 
   TransitionGroup.prototype.componentDidUpdate = function componentDidUpdate() {
+    var _this2 = this;
+
     var keysToEnter = this.keysToEnter;
     this.keysToEnter = [];
-    keysToEnter.forEach(this.performEnter);
+    keysToEnter.forEach(function (key) {
+      return _this2.performEnter(key, _this2.childRefs[key]);
+    });
 
     var keysToLeave = this.keysToLeave;
     this.keysToLeave = [];
-    keysToLeave.forEach(this.performLeave);
+    keysToLeave.forEach(function (key) {
+      return _this2.performLeave(key, _this2.childRefs[key]);
+    });
   };
 
   TransitionGroup.prototype.render = function render() {
-    var _this2 = this;
+    var _this3 = this;
 
     // TODO: we could get rid of the need for the wrapper node
     // by cloning a single child
     var childrenToRender = [];
 
     var _loop = function _loop(key) {
-      var child = _this2.state.children[key];
+      var child = _this3.state.children[key];
       if (child) {
         var isCallbackRef = typeof child.ref !== 'string';
-        var factoryChild = _this2.props.childFactory(child);
+        var factoryChild = _this3.props.childFactory(child);
         var ref = function ref(r) {
-          _this2.childRefs[key] = r;
+          _this3.childRefs[key] = r;
         };
 
-        process.env.NODE_ENV !== 'production' ? (0, _warning2.default)(isCallbackRef, 'string refs are not supported on children of TransitionGroup and will be ignored. ' + 'Please use a callback ref instead: https://facebook.github.io/react/docs/refs-and-the-dom.html#the-ref-callback-attribute') : void 0;
+        "production" !== 'production' ? (0, _warning2.default)(isCallbackRef, 'string refs are not supported on children of TransitionGroup and will be ignored. ' + 'Please use a callback ref instead: https://facebook.github.io/react/docs/refs-and-the-dom.html#the-ref-callback-attribute') : void 0;
 
         // Always chaining the refs leads to problems when the childFactory
         // wraps the child. The child ref callback gets called twice with the
@@ -2635,13 +2445,12 @@ var TransitionGroup = function (_React$Component) {
 TransitionGroup.displayName = 'TransitionGroup';
 
 
-TransitionGroup.propTypes = propTypes;
+TransitionGroup.propTypes = "production" !== "production" ? propTypes : {};
 TransitionGroup.defaultProps = defaultProps;
 
 exports.default = TransitionGroup;
 module.exports = exports['default'];
-}).call(this,require('_process'))
-},{"./utils/ChildMapping":38,"_process":34,"chain-function":9,"prop-types":undefined,"react":undefined,"warning":40}],38:[function(require,module,exports){
+},{"./utils/ChildMapping":37,"chain-function":9,"prop-types":undefined,"react":undefined,"warning":39}],37:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2733,7 +2542,7 @@ function mergeChildMappings(prev, next) {
 
   return childMapping;
 }
-},{"react":undefined}],39:[function(require,module,exports){
+},{"react":undefined}],38:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2783,8 +2592,7 @@ var nameShape = exports.nameShape = _propTypes2.default.oneOfType([_propTypes2.d
   appear: _propTypes2.default.string,
   appearActive: _propTypes2.default.string
 })]);
-},{"prop-types":undefined,"react":undefined}],40:[function(require,module,exports){
-(function (process){
+},{"prop-types":undefined,"react":undefined}],39:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -2805,7 +2613,7 @@ var nameShape = exports.nameShape = _propTypes2.default.oneOfType([_propTypes2.d
 
 var warning = function() {};
 
-if (process.env.NODE_ENV !== 'production') {
+if ("production" !== 'production') {
   warning = function(condition, format, args) {
     var len = arguments.length;
     args = new Array(len > 2 ? len - 2 : 0);
@@ -2846,8 +2654,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = warning;
 
-}).call(this,require('_process'))
-},{"_process":34}],41:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -3267,7 +3074,7 @@ https://fb.me/react-unknown-prop is resolved
 */
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./components/Arrow":42,"./components/Container":43,"./components/Footer":44,"./components/Header":45,"./components/PaginatedThumbnails":47,"./components/Portal":49,"./theme":55,"./utils":59,"aphrodite/no-important":6,"prop-types":undefined,"react-scrolllock":undefined}],42:[function(require,module,exports){
+},{"./components/Arrow":41,"./components/Container":42,"./components/Footer":43,"./components/Header":44,"./components/PaginatedThumbnails":46,"./components/Portal":48,"./theme":54,"./utils":58,"aphrodite/no-important":6,"prop-types":undefined,"react-scrolllock":undefined}],41:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -3382,7 +3189,7 @@ var defaultStyles = {
 module.exports = Arrow;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":55,"../utils":59,"./Icon":46,"aphrodite/no-important":6,"prop-types":undefined}],43:[function(require,module,exports){
+},{"../theme":54,"../utils":58,"./Icon":45,"aphrodite/no-important":6,"prop-types":undefined}],42:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -3447,7 +3254,7 @@ var defaultStyles = {
 module.exports = Container;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":55,"../utils":59,"aphrodite/no-important":6,"prop-types":undefined}],44:[function(require,module,exports){
+},{"../theme":54,"../utils":58,"aphrodite/no-important":6,"prop-types":undefined}],43:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -3522,7 +3329,7 @@ Footer.contextTypes = {
 var defaultStyles = {
 	footer: {
 		boxSizing: 'border-box',
-		color: _theme2['default'].footer.color,
+		color: red,
 		cursor: 'auto',
 		display: 'flex',
 		justifyContent: 'space-between',
@@ -3546,7 +3353,7 @@ var defaultStyles = {
 module.exports = Footer;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":55,"../utils":59,"aphrodite/no-important":6,"prop-types":undefined}],45:[function(require,module,exports){
+},{"../theme":54,"../utils":58,"aphrodite/no-important":6,"prop-types":undefined}],44:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -3639,7 +3446,7 @@ var defaultStyles = {
 module.exports = Header;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":55,"../utils":59,"./Icon":46,"aphrodite/no-important":6,"prop-types":undefined}],46:[function(require,module,exports){
+},{"../theme":54,"../utils":58,"./Icon":45,"aphrodite/no-important":6,"prop-types":undefined}],45:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -3690,7 +3497,7 @@ exports['default'] = Icon;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../icons":54,"prop-types":undefined}],47:[function(require,module,exports){
+},{"../icons":53,"prop-types":undefined}],46:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -3872,7 +3679,7 @@ var PaginatedThumbnails = (function (_Component) {
 				icon: 'arrowRight',
 				onClick: this.gotoNext,
 				style: arrowStyles,
-				title: 'Previous (Right arrow key)',
+				title: 'Next (Right arrow key)',
 				type: 'button'
 			});
 		}
@@ -3926,7 +3733,7 @@ PaginatedThumbnails.propTypes = {
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":55,"./Arrow":42,"./Thumbnail":50,"aphrodite/no-important":6,"prop-types":undefined}],48:[function(require,module,exports){
+},{"../theme":54,"./Arrow":41,"./Thumbnail":49,"aphrodite/no-important":6,"prop-types":undefined}],47:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -3988,7 +3795,7 @@ exports['default'] = PassContext;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"prop-types":undefined}],49:[function(require,module,exports){
+},{"prop-types":undefined}],48:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -4094,7 +3901,7 @@ Portal.contextTypes = {
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./PassContext":48,"prop-types":undefined,"react-dom":undefined,"react-transition-group/CSSTransitionGroup":35}],50:[function(require,module,exports){
+},{"./PassContext":47,"prop-types":undefined,"react-dom":undefined,"react-transition-group/CSSTransitionGroup":34}],49:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -4176,7 +3983,7 @@ exports['default'] = Thumbnail;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":55,"../utils":59,"aphrodite/no-important":6,"prop-types":undefined}],51:[function(require,module,exports){
+},{"../theme":54,"../utils":58,"aphrodite/no-important":6,"prop-types":undefined}],50:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4189,7 +3996,7 @@ exports["default"] = function (fill) {
 
 module.exports = exports["default"];
 
-},{}],52:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4202,7 +4009,7 @@ exports["default"] = function (fill) {
 
 module.exports = exports["default"];
 
-},{}],53:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4215,7 +4022,7 @@ exports["default"] = function (fill) {
 
 module.exports = exports["default"];
 
-},{}],54:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -4224,7 +4031,7 @@ module.exports = {
 	close: require('./close')
 };
 
-},{"./arrowLeft":51,"./arrowRight":52,"./close":53}],55:[function(require,module,exports){
+},{"./arrowLeft":50,"./arrowRight":51,"./close":52}],54:[function(require,module,exports){
 // ==============================
 // THEME
 // ==============================
@@ -4283,7 +4090,7 @@ theme.arrow = {
 
 module.exports = theme;
 
-},{}],56:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 /**
 	Bind multiple component methods:
 
@@ -4306,14 +4113,14 @@ module.exports = function bindFunctions(functions) {
 	});
 };
 
-},{}],57:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 // Return true if window + document
 
 'use strict';
 
 module.exports = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 
-},{}],58:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -4340,7 +4147,7 @@ function deepMerge(target) {
 
 module.exports = deepMerge;
 
-},{}],59:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -4363,5 +4170,5 @@ module.exports = {
 	deepMerge: _deepMerge2['default']
 };
 
-},{"./bindFunctions":56,"./canUseDom":57,"./deepMerge":58}]},{},[41])(41)
+},{"./bindFunctions":55,"./canUseDom":56,"./deepMerge":57}]},{},[40])(40)
 });
