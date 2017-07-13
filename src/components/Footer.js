@@ -16,6 +16,10 @@ function Footer ({
 }) {
 	if (!caption && !showCount) return null;
 
+	if(caption) {
+		console.log('hi')
+	}
+
 	const classes = StyleSheet.create(deepMerge(defaultStyles, theme));
 
 	const imageCount = showCount ? (
@@ -52,7 +56,7 @@ Footer.contextTypes = {
 const defaultStyles = {
 	footer: {
 		boxSizing: 'border-box',
-		color: red,
+		color: defaults.footer.color,
 		cursor: 'auto',
 		display: 'flex',
 		justifyContent: 'space-between',

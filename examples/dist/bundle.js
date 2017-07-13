@@ -2868,6 +2868,10 @@ function Footer(_ref, _ref2) {
 
 	if (!caption && !showCount) return null;
 
+	if (caption) {
+		console.log('hi');
+	}
+
 	var classes = _aphroditeNoImportant.StyleSheet.create((0, _utils.deepMerge)(defaultStyles, theme));
 
 	var imageCount = showCount ? _react2['default'].createElement(
@@ -2904,7 +2908,7 @@ Footer.contextTypes = {
 var defaultStyles = {
 	footer: {
 		boxSizing: 'border-box',
-		color: red,
+		color: _theme2['default'].footer.color,
 		cursor: 'auto',
 		display: 'flex',
 		justifyContent: 'space-between',
