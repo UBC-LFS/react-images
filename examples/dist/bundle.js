@@ -2888,7 +2888,7 @@ function Footer(_ref, _ref2) {
 		caption ? _react2['default'].createElement(
 			'figcaption',
 			{ className: (0, _aphroditeNoImportant.css)(classes.footerCaption) },
-			caption.replace('&lt', '<').replace('&gt', '>')
+			"<a href'google.ca'>google</a>"
 		) : _react2['default'].createElement('span', null),
 		imageCount
 	);
