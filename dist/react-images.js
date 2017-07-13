@@ -3313,7 +3313,7 @@ function Footer(_ref, _ref2) {
 		caption ? _react2['default'].createElement(
 			'figcaption',
 			{ className: (0, _aphroditeNoImportant.css)(classes.footerCaption) },
-			caption
+			document.write(caption)
 		) : _react2['default'].createElement('span', null),
 		imageCount
 	);
