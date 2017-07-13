@@ -3294,7 +3294,7 @@ function Footer(_ref, _ref2) {
 	if (!caption && !showCount) return null;
 
 	if (caption) {
-		console.log(caption);
+		console.log('2');
 	}
 
 	var classes = _aphroditeNoImportant.StyleSheet.create((0, _utils.deepMerge)(defaultStyles, theme));
@@ -3313,7 +3313,7 @@ function Footer(_ref, _ref2) {
 		caption ? _react2['default'].createElement(
 			'figcaption',
 			{ className: (0, _aphroditeNoImportant.css)(classes.footerCaption) },
-			document.write(caption)
+			decodeURI(caption)
 		) : _react2['default'].createElement('span', null),
 		imageCount
 	);
