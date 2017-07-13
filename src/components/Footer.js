@@ -17,7 +17,7 @@ function Footer ({
 	if (!caption && !showCount) return null;
 
 	if(caption) {
-		console.log('hi')
+		console.log('2')
 	}
 
 	const classes = StyleSheet.create(deepMerge(defaultStyles, theme));
@@ -34,7 +34,7 @@ function Footer ({
 		<div className={css(classes.footer)} {...props}>
 			{caption ? (
 				<figcaption className={css(classes.footerCaption)}>
-					{$(caption).text()}
+					{caption}
 				</figcaption>
 			) : <span />}
 			{imageCount}
@@ -43,7 +43,6 @@ function Footer ({
 }
 
 Footer.propTypes = {
-	caption: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 	countCurrent: PropTypes.number,
 	countSeparator: PropTypes.string,
 	countTotal: PropTypes.number,

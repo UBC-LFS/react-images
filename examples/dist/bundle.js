@@ -2869,7 +2869,7 @@ function Footer(_ref, _ref2) {
 	if (!caption && !showCount) return null;
 
 	if (caption) {
-		console.log('hi');
+		console.log('2');
 	}
 
 	var classes = _aphroditeNoImportant.StyleSheet.create((0, _utils.deepMerge)(defaultStyles, theme));
@@ -2888,14 +2888,13 @@ function Footer(_ref, _ref2) {
 		caption ? _react2['default'].createElement(
 			'figcaption',
 			{ className: (0, _aphroditeNoImportant.css)(classes.footerCaption) },
-			$(caption).text()
+			caption
 		) : _react2['default'].createElement('span', null),
 		imageCount
 	);
 }
 
 Footer.propTypes = {
-	caption: _propTypes2['default'].oneOfType([_propTypes2['default'].string, _propTypes2['default'].element]),
 	countCurrent: _propTypes2['default'].number,
 	countSeparator: _propTypes2['default'].string,
 	countTotal: _propTypes2['default'].number,
