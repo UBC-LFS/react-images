@@ -52,7 +52,7 @@ Footer.contextTypes = {
 const defaultStyles = {
 	footer: {
 		boxSizing: 'border-box',
-		color: defaults.footer.color,
+		color: red,
 		cursor: 'auto',
 		display: 'flex',
 		justifyContent: 'space-between',
