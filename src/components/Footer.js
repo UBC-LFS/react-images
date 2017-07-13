@@ -33,8 +33,7 @@ function Footer ({
 	return (
 		<div className={css(classes.footer)} {...props}>
 			{caption ? (
-				<figcaption className={css(classes.footerCaption)} dangerouslySetInnerHTML={{__html: 'jgfyufjh <a href="https://www.flickr.com/photos/146447925@N07/33444308545/in/dateposted-public/">www.flickr.com/photos/146447925@N07/33444308545/in/datepo...</a>'}}>
-					
+				<figcaption className={css(classes.footerCaption)} dangerouslySetInnerHTML={{__html: caption}}>
 				</figcaption>
 			) : <span />}
 			{imageCount}
@@ -43,6 +42,7 @@ function Footer ({
 }
 
 Footer.propTypes = {
+	caption: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 	countCurrent: PropTypes.number,
 	countSeparator: PropTypes.string,
 	countTotal: PropTypes.number,

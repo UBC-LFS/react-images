@@ -2885,12 +2885,13 @@ function Footer(_ref, _ref2) {
 	return _react2['default'].createElement(
 		'div',
 		_extends({ className: (0, _aphroditeNoImportant.css)(classes.footer) }, props),
-		caption ? _react2['default'].createElement('figcaption', { className: (0, _aphroditeNoImportant.css)(classes.footerCaption), dangerouslySetInnerHTML: { __html: 'jgfyufjh <a href="https://www.flickr.com/photos/146447925@N07/33444308545/in/dateposted-public/">www.flickr.com/photos/146447925@N07/33444308545/in/datepo...</a>' } }) : _react2['default'].createElement('span', null),
+		caption ? _react2['default'].createElement('figcaption', { className: (0, _aphroditeNoImportant.css)(classes.footerCaption), dangerouslySetInnerHTML: { __html: caption } }) : _react2['default'].createElement('span', null),
 		imageCount
 	);
 }
 
 Footer.propTypes = {
+	caption: _propTypes2['default'].oneOfType([_propTypes2['default'].string, _propTypes2['default'].element]),
 	countCurrent: _propTypes2['default'].number,
 	countSeparator: _propTypes2['default'].string,
 	countTotal: _propTypes2['default'].number,
