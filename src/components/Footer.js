@@ -16,10 +16,6 @@ function Footer ({
 }) {
 	if (!caption && !showCount) return null;
 
-	if(caption) {
-		console.log('2')
-	}
-
 	const classes = StyleSheet.create(deepMerge(defaultStyles, theme));
 
 	const imageCount = showCount ? (

@@ -3293,10 +3293,6 @@ function Footer(_ref, _ref2) {
 
 	if (!caption && !showCount) return null;
 
-	if (caption) {
-		console.log('2');
-	}
-
 	var classes = _aphroditeNoImportant.StyleSheet.create((0, _utils.deepMerge)(defaultStyles, theme));
 
 	var imageCount = showCount ? _react2['default'].createElement(
