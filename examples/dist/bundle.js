@@ -2881,7 +2881,7 @@ function Footer(_ref, _ref2) {
 	return _react2['default'].createElement(
 		'div',
 		_extends({ className: (0, _aphroditeNoImportant.css)(classes.footer) }, props),
-		caption ? _react2['default'].createElement('figcaption', { className: (0, _aphroditeNoImportant.css)(classes.footerCaption), dangerouslySetInnerHTML: { __html: caption } }) : _react2['default'].createElement('span', null),
+		caption ? _react2['default'].createElement('figcaption', { className: "lightbox_image_caption" + (0, _aphroditeNoImportant.css)(classes.footerCaption), dangerouslySetInnerHTML: { __html: caption } }) : _react2['default'].createElement('span', null),
 		imageCount
 	);
 }
