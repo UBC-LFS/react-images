@@ -3704,7 +3704,7 @@ var PaginatedThumbnails = (function (_Component) {
 
 			return _react2['default'].createElement(
 				'div',
-				{ className: (0, _aphroditeNoImportant.css)(classes.paginatedThumbnails) },
+				{ className: "photoThumbnails " + (0, _aphroditeNoImportant.css)(classes.paginatedThumbnails) },
 				this.renderArrowPrev(),
 				thumbnails.map(function (img, idx) {
 					return _react2['default'].createElement(_Thumbnail2['default'], _extends({ key: baseOffset + idx
