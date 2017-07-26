@@ -2872,7 +2872,7 @@ function Footer(_ref, _ref2) {
 
 	return _react2['default'].createElement(
 		'div',
-		_extends({ className: 'scrollDesc ' + (0, _aphroditeNoImportant.css)(classes.footer) }, props),
+		_extends({ className: 'scrollDesc ' + (0, _aphroditeNoImportant.css)(classes.footer), id: 'scrollMe' }, props),
 		caption ? _react2['default'].createElement(
 			'div',
 			{ className: 'footerBackground' },
