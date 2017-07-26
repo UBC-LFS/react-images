@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "aphrodite": "^0.5.0",
-    "iscroll": "^5.2.0",
     "prop-types": "^15.5.8",
     "react-scrolllock": "^1.0.5",
     "react-transition-group": "^1.1.3"
