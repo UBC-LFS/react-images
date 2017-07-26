@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import myScroll from 'IScroll'
 import { css, StyleSheet } from 'aphrodite/no-important';
 import defaults from '../theme';
 import { deepMerge } from '../utils';
