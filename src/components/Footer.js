@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import myScroll from 'IScroll'
 import { css, StyleSheet } from 'aphrodite/no-important';
 import defaults from '../theme';
 import { deepMerge } from '../utils';
@@ -18,19 +19,11 @@ function Footer ({
 
 	const classes = StyleSheet.create(deepMerge(defaultStyles, theme));
 
-	const imageCount = showCount ? (
-		<div className={css(classes.footerCount)}>
-			{countCurrent}
-			{countSeparator}
-			{countTotal}
-		</div>)
-		: <span />;
-
 	return (
-		<div className={css(classes.footer)} {...props}>
+		<div className={'scrollDesc' + css(classes.footer)} {...props}>
 			{caption ? (
 				<div className="footerBackground">
-					<figcaption className={'lightbox_image_caption ' + css(classes.footerCaption)} dangerouslySetInnerHTML={{ __html: caption }}>
+					<figcaption className={'lightbox_image_caption' + css(classes.footerCaption)} dangerouslySetInnerHTML={{ __html: caption }}>
 					</figcaption>
 				</div>
 			) : <span />}
