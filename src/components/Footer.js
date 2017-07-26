@@ -19,10 +19,10 @@ function Footer ({
 	const classes = StyleSheet.create(deepMerge(defaultStyles, theme));
 
 	return (
-		<div className={'scrollDesc ' + css(classes.footer)} id="scrollMe" {...props}>
+		<div className={'scrollDesc ' + css(classes.footer)} {...props}>
 			{caption ? (
 				<div className="footerBackground">
-					<figcaption className={'lightbox_image_caption ' + css(classes.footerCaption)} dangerouslySetInnerHTML={{ __html: caption }}>
+					<figcaption className={'lightbox_image_caption ' + css(classes.footerCaption)} id="scrollMe" dangerouslySetInnerHTML={{ __html: caption }}>
 					</figcaption>
 				</div>
 			) : <span />}
