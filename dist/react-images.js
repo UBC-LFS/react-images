@@ -3304,9 +3304,9 @@ function Footer(_ref, _ref2) {
 			'div',
 			{ className: 'footerBackground' },
 			_react2['default'].createElement(
-				_reactScrollBox.ScrollBox,
-				{ style: { height: '200px' }, axes: _reactScrollBox.ScrollAxes.Y, fastTrack: _reactScrollBox.FastTrack.PAGING },
-				_react2['default'].createElement('figcaption', { className: 'lightbox_image_caption ' + (0, _aphroditeNoImportant.css)(classes.footerCaption), dangerouslySetInnerHTML: { __html: caption } })
+				'figcaption',
+				{ className: 'lightbox_image_caption ' + (0, _aphroditeNoImportant.css)(classes.footerCaption) },
+				_react2['default'].createElement(_reactScrollBox.ScrollBox, { style: { height: '200px' }, axes: _reactScrollBox.ScrollAxes.Y, fastTrack: _reactScrollBox.FastTrack.PAGING, dangerouslySetInnerHTML: { __html: caption } })
 			)
 		) : _react2['default'].createElement('span', null)
 	);

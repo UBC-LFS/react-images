@@ -23,10 +23,10 @@ function Footer ({
 		<div className={css(classes.footer)} {...props}>
 			{caption ? (
 				<div className="footerBackground">
-					<ScrollBox style={{height: '200px'}} axes={ScrollAxes.Y} fastTrack={FastTrack.PAGING}>
-					<figcaption className={'lightbox_image_caption ' + css(classes.footerCaption)} dangerouslySetInnerHTML={{ __html: caption }}>
+					<figcaption className={'lightbox_image_caption ' + css(classes.footerCaption)} >
+						<ScrollBox style={{height: '200px'}} axes={ScrollAxes.Y} fastTrack={FastTrack.PAGING} dangerouslySetInnerHTML={{ __html: caption }}>
+						</ScrollBox>
 					</figcaption>
-					</ScrollBox>
 				</div>
 			) : <span />}
 		</div>
