@@ -12,7 +12,6 @@
   "dependencies": {
     "aphrodite": "^0.5.0",
     "prop-types": "^15.5.8",
-    "react-scroll-box": "^0.3.3-beta",
     "react-scrolllock": "^1.0.5",
     "react-transition-group": "^1.1.3"
   },

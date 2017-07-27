@@ -3272,8 +3272,6 @@ var _react = (typeof window !== "undefined" ? window['React'] : typeof global !=
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactScrollBox = require('react-scroll-box');
-
 var _aphroditeNoImportant = require('aphrodite/no-important');
 
 var _theme = require('../theme');
@@ -3303,11 +3301,7 @@ function Footer(_ref, _ref2) {
 		caption ? _react2['default'].createElement(
 			'div',
 			{ className: 'footerBackground' },
-			_react2['default'].createElement(
-				'figcaption',
-				{ className: 'lightbox_image_caption ' + (0, _aphroditeNoImportant.css)(classes.footerCaption) },
-				_react2['default'].createElement(_reactScrollBox.ScrollBox, { style: { height: '200px' }, axes: _reactScrollBox.ScrollAxes.Y, fastTrack: _reactScrollBox.FastTrack.PAGING, dangerouslySetInnerHTML: { __html: caption } })
-			)
+			_react2['default'].createElement('figcaption', { className: 'lightbox_image_caption ' + (0, _aphroditeNoImportant.css)(classes.footerCaption), dangerouslySetInnerHTML: { __html: caption } })
 		) : _react2['default'].createElement('span', null)
 	);
 }
@@ -3350,7 +3344,7 @@ var defaultStyles = {
 module.exports = Footer;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":54,"../utils":58,"aphrodite/no-important":6,"prop-types":undefined,"react-scroll-box":undefined}],44:[function(require,module,exports){
+},{"../theme":54,"../utils":58,"aphrodite/no-important":6,"prop-types":undefined}],44:[function(require,module,exports){
 (function (global){
 'use strict';
 

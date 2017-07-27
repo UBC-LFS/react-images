@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {ScrollBox, ScrollAxes, FastTrack} from 'react-scroll-box';
 import { css, StyleSheet } from 'aphrodite/no-important';
 import defaults from '../theme';
 import { deepMerge } from '../utils';
@@ -23,9 +22,7 @@ function Footer ({
 		<div className={css(classes.footer)} {...props}>
 			{caption ? (
 				<div className="footerBackground">
-					<figcaption className={'lightbox_image_caption ' + css(classes.footerCaption)} >
-						<ScrollBox style={{height: '200px'}} axes={ScrollAxes.Y} fastTrack={FastTrack.PAGING} dangerouslySetInnerHTML={{ __html: caption }}>
-						</ScrollBox>
+					<figcaption className={'lightbox_image_caption ' + css(classes.footerCaption)} dangerouslySetInnerHTML={{ __html: caption }}>
 					</figcaption>
 				</div>
 			) : <span />}
