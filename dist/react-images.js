@@ -2682,10 +2682,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _aphroditeNoImportant = require('aphrodite/no-important');
 
-var _reactScrolllock = require('react-scrolllock');
-
-var _reactScrolllock2 = _interopRequireDefault(_reactScrolllock);
-
 var _theme = require('./theme');
 
 var _theme2 = _interopRequireDefault(_theme);
@@ -3073,7 +3069,7 @@ https://fb.me/react-unknown-prop is resolved
 */
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./components/Arrow":41,"./components/Container":42,"./components/Footer":43,"./components/Header":44,"./components/PaginatedThumbnails":46,"./components/Portal":48,"./theme":54,"./utils":58,"aphrodite/no-important":6,"prop-types":undefined,"react-scrolllock":undefined}],41:[function(require,module,exports){
+},{"./components/Arrow":41,"./components/Container":42,"./components/Footer":43,"./components/Header":44,"./components/PaginatedThumbnails":46,"./components/Portal":48,"./theme":54,"./utils":58,"aphrodite/no-important":6,"prop-types":undefined}],41:[function(require,module,exports){
 (function (global){
 'use strict';
 

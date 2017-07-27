@@ -3750,10 +3750,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _aphroditeNoImportant = require('aphrodite/no-important');
 
-var _reactScrolllock = require('react-scrolllock');
-
-var _reactScrolllock2 = _interopRequireDefault(_reactScrolllock);
-
 var _theme = require('./theme');
 
 var _theme2 = _interopRequireDefault(_theme);
@@ -4140,4 +4136,4 @@ https://fb.me/react-unknown-prop is resolved
 <Swipeable onSwipedLeft={this.gotoNext} onSwipedRight={this.gotoPrev} />
 */
 
-},{"./components/Arrow":40,"./components/Container":41,"./components/Footer":42,"./components/Header":43,"./components/PaginatedThumbnails":45,"./components/Portal":47,"./theme":53,"./utils":57,"aphrodite/no-important":6,"prop-types":undefined,"react":undefined,"react-scrolllock":undefined}]},{},[]);
+},{"./components/Arrow":40,"./components/Container":41,"./components/Footer":42,"./components/Header":43,"./components/PaginatedThumbnails":45,"./components/Portal":47,"./theme":53,"./utils":57,"aphrodite/no-important":6,"prop-types":undefined,"react":undefined}]},{},[]);
