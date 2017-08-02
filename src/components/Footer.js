@@ -22,7 +22,7 @@ function Footer ({
 		<div className={'desc_container ' + css(classes.footer)} {...props}>
 			{caption ? (
 				<div className="footerBackground">
-					<figcaption className={'lightbox_image_caption ' + css(classes.footerCaption)} dangerouslySetInnerHTML={{ __html: caption }}>
+					<figcaption id="photoDescription" className={'lightbox_image_caption ' + css(classes.footerCaption)} dangerouslySetInnerHTML={{ __html: caption }}>
 					</figcaption>
 				</div>
 			) : <span />}

@@ -2876,7 +2876,7 @@ function Footer(_ref, _ref2) {
 		caption ? _react2['default'].createElement(
 			'div',
 			{ className: 'footerBackground' },
-			_react2['default'].createElement('figcaption', { className: 'lightbox_image_caption ' + (0, _aphroditeNoImportant.css)(classes.footerCaption), dangerouslySetInnerHTML: { __html: caption } })
+			_react2['default'].createElement('figcaption', { id: 'photoDescription', className: 'lightbox_image_caption ' + (0, _aphroditeNoImportant.css)(classes.footerCaption), dangerouslySetInnerHTML: { __html: caption } })
 		) : _react2['default'].createElement('span', null)
 	);
 }
