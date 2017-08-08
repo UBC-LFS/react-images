@@ -2995,14 +2995,13 @@ var defaultStyles = {
 		border: 'none',
 		cursor: 'pointer',
 		outline: 'none',
-		position: 'relative',
+		position: 'absolute',
 		top: 0,
+		right: 0,
 		verticalAlign: 'bottom',
 
 		// increase hit area
 		height: _theme2['default'].close.height + 20,
-		marginRight: -10,
-		padding: 10,
 		width: _theme2['default'].close.width + 20
 	}
 };
@@ -3965,7 +3964,7 @@ var Lightbox = (function (_Component) {
 				},
 				_react2['default'].createElement(
 					'div',
-					{ className: (0, _aphroditeNoImportant.css)(classes.content), style: { marginBottom: offsetThumbnails, maxWidth: width } },
+					null,
 					_react2['default'].createElement(_componentsHeader2['default'], {
 						customControls: customControls,
 						onClose: onClose,

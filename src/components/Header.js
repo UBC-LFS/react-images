@@ -53,14 +53,13 @@ const defaultStyles = {
 		border: 'none',
 		cursor: 'pointer',
 		outline: 'none',
-		position: 'relative',
+		position: 'absolute',
 		top: 0,
+		right: 0,
 		verticalAlign: 'bottom',
 
 		// increase hit area
 		height: defaults.close.height + 20,
-		marginRight: -10,
-		padding: 10,
 		width: defaults.close.width + 20,
 	},
 };
