@@ -3242,7 +3242,7 @@ var defaultStyles = {
 		position: 'fixed',
 		top: 0,
 		width: '100%',
-		zIndex: _theme2['default'].container.zIndex
+		zIndex: 1000
 	}
 };
 
