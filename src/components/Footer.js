@@ -18,10 +18,6 @@ function Footer ({
 
 	const classes = StyleSheet.create(deepMerge(defaultStyles, theme));
 
-	const modalOpen = () => {
-		console.log('this is:', this);
-	};
-
 	return (
 		<div className={'desc_container ' + css(classes.footer)} {...props}>
 			{caption ? (
