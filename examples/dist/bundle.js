@@ -2856,6 +2856,8 @@ var _theme2 = _interopRequireDefault(_theme);
 var _utils = require('../utils');
 
 function Footer(_ref, _ref2) {
+	var _this = this;
+
 	var caption = _ref.caption;
 	var countCurrent = _ref.countCurrent;
 	var countSeparator = _ref.countSeparator;
@@ -2869,6 +2871,10 @@ function Footer(_ref, _ref2) {
 	if (!caption && !showCount) return null;
 
 	var classes = _aphroditeNoImportant.StyleSheet.create((0, _utils.deepMerge)(defaultStyles, theme));
+
+	var modalOpen = function modalOpen() {
+		console.log('this is:', _this);
+	};
 
 	return _react2['default'].createElement(
 		'div',
