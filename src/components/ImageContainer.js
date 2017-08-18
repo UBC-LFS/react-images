@@ -68,7 +68,7 @@ const ImageContainer = (props) => {
       className={css(classes.contentContainer)}
       style={{ width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
     >
-      <div className={css(classes.content)} style={{ marginBottom: marginBottom, maxWidth: width }}>
+      <div>
         <Header
           customControls={customControls}
           onClose={onClose}

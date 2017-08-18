@@ -2489,7 +2489,7 @@ var ImageContainer = function ImageContainer(props) {
     },
     _react2['default'].createElement(
       'div',
-      { className: (0, _aphroditeNoImportant.css)(classes.content), style: { marginBottom: marginBottom, maxWidth: width } },
+      null,
       _react2['default'].createElement(_Header2['default'], {
         customControls: customControls,
         onClose: onClose,
