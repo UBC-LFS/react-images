@@ -1734,7 +1734,7 @@ var defaultStyles = {
 
 module.exports = Arrow;
 
-},{"../theme":43,"../utils":47,"./Icon":31,"aphrodite/no-important":6,"react":undefined}],28:[function(require,module,exports){
+},{"../theme":42,"../utils":46,"./Icon":31,"aphrodite/no-important":6,"react":undefined}],28:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -1787,13 +1787,13 @@ var defaultStyles = {
 		position: 'fixed',
 		top: 0,
 		width: '100%',
-		zIndex: _theme2['default'].container.zIndex
+		zIndex: 1000
 	}
 };
 
 module.exports = Container;
 
-},{"../theme":43,"../utils":47,"aphrodite/no-important":6,"react":undefined}],29:[function(require,module,exports){
+},{"../theme":42,"../utils":46,"aphrodite/no-important":6,"react":undefined}],29:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -1885,7 +1885,7 @@ var defaultStyles = {
 
 module.exports = Footer;
 
-},{"../theme":43,"../utils":47,"aphrodite/no-important":6,"react":undefined}],30:[function(require,module,exports){
+},{"../theme":42,"../utils":46,"aphrodite/no-important":6,"react":undefined}],30:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -1957,21 +1957,20 @@ var defaultStyles = {
 		border: 'none',
 		cursor: 'pointer',
 		outline: 'none',
-		position: 'relative',
+		position: 'absolute',
 		top: 0,
+		right: 0,
 		verticalAlign: 'bottom',
 
 		// increase hit area
 		height: _theme2['default'].close.height + 20,
-		marginRight: -10,
-		padding: 10,
 		width: _theme2['default'].close.width + 20
 	}
 };
 
 module.exports = Header;
 
-},{"../theme":43,"../utils":47,"./Icon":31,"aphrodite/no-important":6,"react":undefined}],31:[function(require,module,exports){
+},{"../theme":42,"../utils":46,"./Icon":31,"aphrodite/no-important":6,"react":undefined}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2016,7 +2015,7 @@ Icon.defaultProps = {
 exports['default'] = Icon;
 module.exports = exports['default'];
 
-},{"../icons":42,"react":undefined}],32:[function(require,module,exports){
+},{"../icons":41,"react":undefined}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2146,7 +2145,7 @@ var classes = _aphroditeNoImportant.StyleSheet.create({
 exports['default'] = ImageContainer;
 module.exports = exports['default'];
 
-},{"../theme":43,"./Footer":29,"./Header":30,"aphrodite/no-important":6,"react":undefined}],33:[function(require,module,exports){
+},{"../theme":42,"./Footer":29,"./Header":30,"aphrodite/no-important":6,"react":undefined}],33:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2376,7 +2375,7 @@ PaginatedThumbnails.propTypes = {
 };
 module.exports = exports['default'];
 
-},{"../theme":43,"./Arrow":27,"./Thumbnail":38,"aphrodite/no-important":6,"react":undefined}],34:[function(require,module,exports){
+},{"../theme":42,"./Arrow":27,"./Thumbnail":37,"aphrodite/no-important":6,"react":undefined}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2536,89 +2535,6 @@ module.exports = exports['default'];
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-	value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var lockCount = 0;
-
-var ScrollLock = (function (_Component) {
-	_inherits(ScrollLock, _Component);
-
-	function ScrollLock() {
-		_classCallCheck(this, ScrollLock);
-
-		_get(Object.getPrototypeOf(ScrollLock.prototype), 'constructor', this).apply(this, arguments);
-	}
-
-	_createClass(ScrollLock, [{
-		key: 'componentWillMount',
-		value: function componentWillMount() {
-			if (typeof window === 'undefined') return;
-
-			lockCount++;
-			if (lockCount > 1) return;
-
-			//	FIXME iOS ignores overflow on body
-			try {
-				var scrollBarWidth = window.innerWidth - document.body.clientWidth;
-
-				var target = document.body;
-
-				target.style.paddingRight = scrollBarWidth + 'px';
-				target.style.overflowY = 'hidden';
-			} catch (err) {
-				console.error('Failed to find body element. Err:', err);
-			}
-		}
-	}, {
-		key: 'componentWillUnmount',
-		value: function componentWillUnmount() {
-			if (typeof window === 'undefined' || lockCount === 0) return;
-
-			lockCount--;
-			if (lockCount > 0) return; // Still locked
-
-			//	FIXME iOS ignores overflow on body
-			try {
-				var target = document.body;
-
-				target.style.paddingRight = '';
-				target.style.overflowY = '';
-			} catch (err) {
-				console.error('Failed to find body element. Err:', err);
-			}
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			return null;
-		}
-	}]);
-
-	return ScrollLock;
-})(_react.Component);
-
-exports['default'] = ScrollLock;
-module.exports = exports['default'];
-
-},{"react":undefined}],37:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
@@ -2729,7 +2645,7 @@ var classes = _aphroditeNoImportant.StyleSheet.create({
 exports['default'] = SwipeContainer;
 module.exports = exports['default'];
 
-},{"../theme":43,"./ImageContainer":32,"aphrodite/no-important":6,"react":undefined,"react-motion":undefined,"react-swipeable":undefined}],38:[function(require,module,exports){
+},{"../theme":42,"./ImageContainer":32,"aphrodite/no-important":6,"react":undefined,"react-motion":undefined,"react-swipeable":undefined}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2806,7 +2722,7 @@ var defaultStyles = {
 exports['default'] = Thumbnail;
 module.exports = exports['default'];
 
-},{"../theme":43,"../utils":47,"aphrodite/no-important":6,"react":undefined}],39:[function(require,module,exports){
+},{"../theme":42,"../utils":46,"aphrodite/no-important":6,"react":undefined}],38:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2819,7 +2735,7 @@ exports["default"] = function (fill) {
 
 module.exports = exports["default"];
 
-},{}],40:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2832,7 +2748,7 @@ exports["default"] = function (fill) {
 
 module.exports = exports["default"];
 
-},{}],41:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2845,7 +2761,7 @@ exports["default"] = function (fill) {
 
 module.exports = exports["default"];
 
-},{}],42:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -2854,7 +2770,7 @@ module.exports = {
 	close: require('./close')
 };
 
-},{"./arrowLeft":39,"./arrowRight":40,"./close":41}],43:[function(require,module,exports){
+},{"./arrowLeft":38,"./arrowRight":39,"./close":40}],42:[function(require,module,exports){
 // ==============================
 // THEME
 // ==============================
@@ -2913,7 +2829,7 @@ theme.arrow = {
 
 module.exports = theme;
 
-},{}],44:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 /**
 	Bind multiple component methods:
 
@@ -2936,14 +2852,14 @@ module.exports = function bindFunctions(functions) {
 	});
 };
 
-},{}],45:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 // Return true if window + document
 
 'use strict';
 
 module.exports = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 
-},{}],46:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -2970,7 +2886,7 @@ function deepMerge(target) {
 
 module.exports = deepMerge;
 
-},{}],47:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -2993,7 +2909,7 @@ module.exports = {
 	deepMerge: _deepMerge2['default']
 };
 
-},{"./bindFunctions":44,"./canUseDom":45,"./deepMerge":46}],"react-images":[function(require,module,exports){
+},{"./bindFunctions":43,"./canUseDom":44,"./deepMerge":45}],"react-images":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -3041,10 +2957,6 @@ var _componentsPaginatedThumbnails2 = _interopRequireDefault(_componentsPaginate
 var _componentsPortal = require('./components/Portal');
 
 var _componentsPortal2 = _interopRequireDefault(_componentsPortal);
-
-var _componentsScrollLock = require('./components/ScrollLock');
-
-var _componentsScrollLock2 = _interopRequireDefault(_componentsScrollLock);
 
 var _utils = require('./utils');
 
@@ -3285,8 +3197,7 @@ var Lightbox = (function (_Component) {
 					this.renderThumbnails(),
 					this.renderArrowPrev(),
 					this.renderArrowNext()
-				),
-				_react2['default'].createElement(_componentsScrollLock2['default'], null)
+				)
 			);
 		}
 	}, {
@@ -3367,4 +3278,4 @@ Lightbox.childContextTypes = {
 exports['default'] = Lightbox;
 module.exports = exports['default'];
 
-},{"./components/Arrow":27,"./components/Container":28,"./components/PaginatedThumbnails":33,"./components/Portal":35,"./components/ScrollLock":36,"./components/SwipeContainer":37,"./theme":43,"./utils":47,"aphrodite/no-important":6,"react":undefined}]},{},[]);
+},{"./components/Arrow":27,"./components/Container":28,"./components/PaginatedThumbnails":33,"./components/Portal":35,"./components/SwipeContainer":36,"./theme":42,"./utils":46,"aphrodite/no-important":6,"react":undefined}]},{},[]);

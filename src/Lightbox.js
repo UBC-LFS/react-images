@@ -7,7 +7,6 @@ import Container from './components/Container';
 import SwipeContainer from './components/SwipeContainer';
 import PaginatedThumbnails from './components/PaginatedThumbnails';
 import Portal from './components/Portal';
-import ScrollLock from './components/ScrollLock';
 
 import { bindFunctions, canUseDom } from './utils';
 
@@ -230,7 +229,6 @@ class Lightbox extends Component {
           {this.renderArrowPrev()}
           {this.renderArrowNext()}
         </div>
-        <ScrollLock />
 			</Container>
 		);
 	}

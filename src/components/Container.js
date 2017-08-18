@@ -35,7 +35,7 @@ const defaultStyles = {
 		position: 'fixed',
 		top: 0,
 		width: '100%',
-		zIndex: defaults.container.zIndex,
+		zIndex: 1000,
 	},
 };
 

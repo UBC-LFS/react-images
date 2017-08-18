@@ -1675,10 +1675,6 @@ var _componentsPortal = require('./components/Portal');
 
 var _componentsPortal2 = _interopRequireDefault(_componentsPortal);
 
-var _componentsScrollLock = require('./components/ScrollLock');
-
-var _componentsScrollLock2 = _interopRequireDefault(_componentsScrollLock);
-
 var _utils = require('./utils');
 
 var Lightbox = (function (_Component) {
@@ -1918,8 +1914,7 @@ var Lightbox = (function (_Component) {
 					this.renderThumbnails(),
 					this.renderArrowPrev(),
 					this.renderArrowNext()
-				),
-				_react2['default'].createElement(_componentsScrollLock2['default'], null)
+				)
 			);
 		}
 	}, {
@@ -2001,7 +1996,7 @@ exports['default'] = Lightbox;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./components/Arrow":28,"./components/Container":29,"./components/PaginatedThumbnails":34,"./components/Portal":36,"./components/ScrollLock":37,"./components/SwipeContainer":38,"./theme":44,"./utils":48,"aphrodite/no-important":6}],28:[function(require,module,exports){
+},{"./components/Arrow":28,"./components/Container":29,"./components/PaginatedThumbnails":34,"./components/Portal":36,"./components/SwipeContainer":37,"./theme":43,"./utils":47,"aphrodite/no-important":6}],28:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2112,7 +2107,7 @@ var defaultStyles = {
 module.exports = Arrow;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":44,"../utils":48,"./Icon":32,"aphrodite/no-important":6}],29:[function(require,module,exports){
+},{"../theme":43,"../utils":47,"./Icon":32,"aphrodite/no-important":6}],29:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2166,14 +2161,14 @@ var defaultStyles = {
 		position: 'fixed',
 		top: 0,
 		width: '100%',
-		zIndex: _theme2['default'].container.zIndex
+		zIndex: 1000
 	}
 };
 
 module.exports = Container;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":44,"../utils":48,"aphrodite/no-important":6}],30:[function(require,module,exports){
+},{"../theme":43,"../utils":47,"aphrodite/no-important":6}],30:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2267,7 +2262,7 @@ var defaultStyles = {
 module.exports = Footer;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":44,"../utils":48,"aphrodite/no-important":6}],31:[function(require,module,exports){
+},{"../theme":43,"../utils":47,"aphrodite/no-important":6}],31:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2340,14 +2335,13 @@ var defaultStyles = {
 		border: 'none',
 		cursor: 'pointer',
 		outline: 'none',
-		position: 'relative',
+		position: 'absolute',
 		top: 0,
+		right: 0,
 		verticalAlign: 'bottom',
 
 		// increase hit area
 		height: _theme2['default'].close.height + 20,
-		marginRight: -10,
-		padding: 10,
 		width: _theme2['default'].close.width + 20
 	}
 };
@@ -2355,7 +2349,7 @@ var defaultStyles = {
 module.exports = Header;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":44,"../utils":48,"./Icon":32,"aphrodite/no-important":6}],32:[function(require,module,exports){
+},{"../theme":43,"../utils":47,"./Icon":32,"aphrodite/no-important":6}],32:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2402,7 +2396,7 @@ exports['default'] = Icon;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../icons":43}],33:[function(require,module,exports){
+},{"../icons":42}],33:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2534,7 +2528,7 @@ exports['default'] = ImageContainer;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":44,"./Footer":30,"./Header":31,"aphrodite/no-important":6}],34:[function(require,module,exports){
+},{"../theme":43,"./Footer":30,"./Header":31,"aphrodite/no-important":6}],34:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2766,7 +2760,7 @@ PaginatedThumbnails.propTypes = {
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":44,"./Arrow":28,"./Thumbnail":39,"aphrodite/no-important":6}],35:[function(require,module,exports){
+},{"../theme":43,"./Arrow":28,"./Thumbnail":38,"aphrodite/no-important":6}],35:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2931,91 +2925,6 @@ module.exports = exports['default'];
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-	value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
-
-var _react2 = _interopRequireDefault(_react);
-
-var lockCount = 0;
-
-var ScrollLock = (function (_Component) {
-	_inherits(ScrollLock, _Component);
-
-	function ScrollLock() {
-		_classCallCheck(this, ScrollLock);
-
-		_get(Object.getPrototypeOf(ScrollLock.prototype), 'constructor', this).apply(this, arguments);
-	}
-
-	_createClass(ScrollLock, [{
-		key: 'componentWillMount',
-		value: function componentWillMount() {
-			if (typeof window === 'undefined') return;
-
-			lockCount++;
-			if (lockCount > 1) return;
-
-			//	FIXME iOS ignores overflow on body
-			try {
-				var scrollBarWidth = window.innerWidth - document.body.clientWidth;
-
-				var target = document.body;
-
-				target.style.paddingRight = scrollBarWidth + 'px';
-				target.style.overflowY = 'hidden';
-			} catch (err) {
-				console.error('Failed to find body element. Err:', err);
-			}
-		}
-	}, {
-		key: 'componentWillUnmount',
-		value: function componentWillUnmount() {
-			if (typeof window === 'undefined' || lockCount === 0) return;
-
-			lockCount--;
-			if (lockCount > 0) return; // Still locked
-
-			//	FIXME iOS ignores overflow on body
-			try {
-				var target = document.body;
-
-				target.style.paddingRight = '';
-				target.style.overflowY = '';
-			} catch (err) {
-				console.error('Failed to find body element. Err:', err);
-			}
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			return null;
-		}
-	}]);
-
-	return ScrollLock;
-})(_react.Component);
-
-exports['default'] = ScrollLock;
-module.exports = exports['default'];
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],38:[function(require,module,exports){
-(function (global){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
@@ -3127,7 +3036,7 @@ exports['default'] = SwipeContainer;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":44,"./ImageContainer":33,"aphrodite/no-important":6,"react-motion":undefined,"react-swipeable":undefined}],39:[function(require,module,exports){
+},{"../theme":43,"./ImageContainer":33,"aphrodite/no-important":6,"react-motion":undefined,"react-swipeable":undefined}],38:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -3206,7 +3115,7 @@ exports['default'] = Thumbnail;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":44,"../utils":48,"aphrodite/no-important":6}],40:[function(require,module,exports){
+},{"../theme":43,"../utils":47,"aphrodite/no-important":6}],39:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3219,7 +3128,7 @@ exports["default"] = function (fill) {
 
 module.exports = exports["default"];
 
-},{}],41:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3232,7 +3141,7 @@ exports["default"] = function (fill) {
 
 module.exports = exports["default"];
 
-},{}],42:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3245,7 +3154,7 @@ exports["default"] = function (fill) {
 
 module.exports = exports["default"];
 
-},{}],43:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -3254,7 +3163,7 @@ module.exports = {
 	close: require('./close')
 };
 
-},{"./arrowLeft":40,"./arrowRight":41,"./close":42}],44:[function(require,module,exports){
+},{"./arrowLeft":39,"./arrowRight":40,"./close":41}],43:[function(require,module,exports){
 // ==============================
 // THEME
 // ==============================
@@ -3313,7 +3222,7 @@ theme.arrow = {
 
 module.exports = theme;
 
-},{}],45:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 /**
 	Bind multiple component methods:
 
@@ -3336,14 +3245,14 @@ module.exports = function bindFunctions(functions) {
 	});
 };
 
-},{}],46:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 // Return true if window + document
 
 'use strict';
 
 module.exports = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 
-},{}],47:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -3370,7 +3279,7 @@ function deepMerge(target) {
 
 module.exports = deepMerge;
 
-},{}],48:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -3393,5 +3302,5 @@ module.exports = {
 	deepMerge: _deepMerge2['default']
 };
 
-},{"./bindFunctions":45,"./canUseDom":46,"./deepMerge":47}]},{},[27])(27)
+},{"./bindFunctions":44,"./canUseDom":45,"./deepMerge":46}]},{},[27])(27)
 });
