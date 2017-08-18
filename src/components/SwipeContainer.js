@@ -37,7 +37,6 @@ const SwipeContainer = (props) => {
   const swipeDeltaX = props.deltaX;
   const motionStyle = { deltaX: spring(-currentImage * window.innerWidth - horizontalPadding + swipeDeltaX, springConfig) };
 
-  console.log(props)
   return (
     <Swipeable
       className={css(classes.swipeable)}

@@ -69,6 +69,11 @@ const ImageContainer = (props) => {
       style={{ width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
     >
       <div>
+        <Header
+          customControls={customControls}
+          onClose={onClose}
+          showCloseButton={showCloseButton}
+        />
         {renderImage({ props, image, isVisible })}
       </div>
     </div>

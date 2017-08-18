@@ -2490,6 +2490,11 @@ var ImageContainer = function ImageContainer(props) {
     _react2['default'].createElement(
       'div',
       null,
+      _react2['default'].createElement(_Header2['default'], {
+        customControls: customControls,
+        onClose: onClose,
+        showCloseButton: showCloseButton
+      }),
       renderImage({ props: props, image: image, isVisible: isVisible })
     )
   );
@@ -2976,7 +2981,6 @@ var SwipeContainer = function SwipeContainer(props) {
   var swipeDeltaX = props.deltaX;
   var motionStyle = { deltaX: (0, _reactMotion.spring)(-currentImage * window.innerWidth - horizontalPadding + swipeDeltaX, springConfig) };
 
-  console.log(props);
   return _react2['default'].createElement(
     _reactSwipeable2['default'],
     {
