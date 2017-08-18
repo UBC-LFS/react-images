@@ -2335,7 +2335,7 @@ var defaultStyles = {
 		border: 'none',
 		cursor: 'pointer',
 		outline: 'none',
-		position: 'absolute',
+		position: 'fixed',
 		top: 0,
 		right: 0,
 		verticalAlign: 'bottom',
