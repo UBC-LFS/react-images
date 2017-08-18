@@ -198,7 +198,7 @@ var generateCSSRuleset = function generateCSSRuleset(selector, declarations, str
     }
 };
 exports.generateCSSRuleset = generateCSSRuleset;
-},{"./util":5,"inline-style-prefixer/static":23}],2:[function(require,module,exports){
+},{"./util":5,"inline-style-prefixer/static":26}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -946,9 +946,12 @@ function flush() {
 
 // Safari 6 and 6.1 for desktop, iPad, and iPhone are the only browsers that
 // have WebKitMutationObserver but not un-prefixed MutationObserver.
-// Must use `global` instead of `window` to work in both frames and web
+// Must use `global` or `self` instead of `window` to work in both frames and web
 // workers. `global` is a provision of Browserify, Mr, Mrs, or Mop.
-var BrowserMutationObserver = global.MutationObserver || global.WebKitMutationObserver;
+
+/* globals self */
+var scope = typeof global !== "undefined" ? global : self;
+var BrowserMutationObserver = scope.MutationObserver || scope.WebKitMutationObserver;
 
 // MutationObservers are desirable because they have high priority and work
 // reliably everywhere they are implemented.
@@ -1095,12 +1098,15 @@ rawAsap.makeRequestCallFromTimer = makeRequestCallFromTimer;
 
 var uppercasePattern = /[A-Z]/g;
 var msPattern = /^ms-/;
+var cache = {};
 
 function hyphenateStyleName(string) {
-    return string
-        .replace(uppercasePattern, '-$&')
-        .toLowerCase()
-        .replace(msPattern, '-ms-');
+    return string in cache
+    ? cache[string]
+    : cache[string] = string
+      .replace(uppercasePattern, '-$&')
+      .toLowerCase()
+      .replace(msPattern, '-ms-');
 }
 
 module.exports = hyphenateStyleName;
@@ -1131,7 +1137,7 @@ function calc(property, value) {
   }
 }
 module.exports = exports['default'];
-},{"../../utils/isPrefixedValue":21,"../../utils/joinPrefixedValue":22}],11:[function(require,module,exports){
+},{"../../utils/isPrefixedValue":23,"../../utils/joinPrefixedValue":24}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1158,7 +1164,7 @@ function cursor(property, value) {
   }
 }
 module.exports = exports['default'];
-},{"../../utils/joinPrefixedValue":22}],12:[function(require,module,exports){
+},{"../../utils/joinPrefixedValue":24}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1234,7 +1240,7 @@ var alternativeProps = {
 };
 
 function flexboxOld(property, value) {
-  if (property === 'flexDirection') {
+  if (property === 'flexDirection' && typeof value === 'string') {
     return {
       WebkitBoxOrient: value.indexOf('column') > -1 ? 'vertical' : 'horizontal',
       WebkitBoxDirection: value.indexOf('reverse') > -1 ? 'reverse' : 'normal'
@@ -1271,7 +1277,20 @@ function gradient(property, value) {
   }
 }
 module.exports = exports['default'];
-},{"../../utils/isPrefixedValue":21,"../../utils/joinPrefixedValue":22}],16:[function(require,module,exports){
+},{"../../utils/isPrefixedValue":23,"../../utils/joinPrefixedValue":24}],16:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = position;
+function position(property, value) {
+  if (property === 'position' && value === 'sticky') {
+    return { position: ['-webkit-sticky', 'sticky'] };
+  }
+}
+module.exports = exports['default'];
+},{}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1308,7 +1327,7 @@ function sizing(property, value) {
   }
 }
 module.exports = exports['default'];
-},{"../../utils/joinPrefixedValue":22}],17:[function(require,module,exports){
+},{"../../utils/joinPrefixedValue":24}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1391,7 +1410,7 @@ function prefixValue(value) {
   return multipleValues.join(',');
 }
 module.exports = exports['default'];
-},{"../../utils/capitalizeString":20,"../../utils/isPrefixedValue":21,"../prefixProps":19,"hyphenate-style-name":9}],18:[function(require,module,exports){
+},{"../../utils/capitalizeString":21,"../../utils/isPrefixedValue":23,"../prefixProps":20,"hyphenate-style-name":9}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1406,6 +1425,14 @@ var _prefixProps2 = _interopRequireDefault(_prefixProps);
 var _capitalizeString = require('../utils/capitalizeString');
 
 var _capitalizeString2 = _interopRequireDefault(_capitalizeString);
+
+var _sortPrefixedStyle = require('../utils/sortPrefixedStyle');
+
+var _sortPrefixedStyle2 = _interopRequireDefault(_sortPrefixedStyle);
+
+var _position = require('./plugins/position');
+
+var _position2 = _interopRequireDefault(_position);
 
 var _calc = require('./plugins/calc');
 
@@ -1444,7 +1471,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // special flexbox specifications
 
 
-var plugins = [_calc2.default, _cursor2.default, _sizing2.default, _gradient2.default, _transition2.default, _flexboxIE2.default, _flexboxOld2.default, _flex2.default];
+var plugins = [_position2.default, _calc2.default, _cursor2.default, _sizing2.default, _gradient2.default, _transition2.default, _flexboxIE2.default, _flexboxOld2.default, _flex2.default];
 
 /**
  * Returns a prefixed version of the style object using all vendor prefixes
@@ -1477,7 +1504,7 @@ function prefixAll(styles) {
     });
   });
 
-  return styles;
+  return (0, _sortPrefixedStyle2.default)(styles);
 }
 
 function assignStyles(base) {
@@ -1499,15 +1526,15 @@ function assignStyles(base) {
   });
 }
 module.exports = exports['default'];
-},{"../utils/capitalizeString":20,"./plugins/calc":10,"./plugins/cursor":11,"./plugins/flex":12,"./plugins/flexboxIE":13,"./plugins/flexboxOld":14,"./plugins/gradient":15,"./plugins/sizing":16,"./plugins/transition":17,"./prefixProps":19}],19:[function(require,module,exports){
+},{"../utils/capitalizeString":21,"../utils/sortPrefixedStyle":25,"./plugins/calc":10,"./plugins/cursor":11,"./plugins/flex":12,"./plugins/flexboxIE":13,"./plugins/flexboxOld":14,"./plugins/gradient":15,"./plugins/position":16,"./plugins/sizing":17,"./plugins/transition":18,"./prefixProps":20}],20:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = { "Webkit": { "transform": true, "transformOrigin": true, "transformOriginX": true, "transformOriginY": true, "backfaceVisibility": true, "perspective": true, "perspectiveOrigin": true, "transformStyle": true, "transformOriginZ": true, "animation": true, "animationDelay": true, "animationDirection": true, "animationFillMode": true, "animationDuration": true, "animationIterationCount": true, "animationName": true, "animationPlayState": true, "animationTimingFunction": true, "appearance": true, "userSelect": true, "fontKerning": true, "textEmphasisPosition": true, "textEmphasis": true, "textEmphasisStyle": true, "textEmphasisColor": true, "boxDecorationBreak": true, "clipPath": true, "maskImage": true, "maskMode": true, "maskRepeat": true, "maskPosition": true, "maskClip": true, "maskOrigin": true, "maskSize": true, "maskComposite": true, "mask": true, "maskBorderSource": true, "maskBorderMode": true, "maskBorderSlice": true, "maskBorderWidth": true, "maskBorderOutset": true, "maskBorderRepeat": true, "maskBorder": true, "maskType": true, "textDecorationStyle": true, "textDecorationSkip": true, "textDecorationLine": true, "textDecorationColor": true, "filter": true, "fontFeatureSettings": true, "breakAfter": true, "breakBefore": true, "breakInside": true, "columnCount": true, "columnFill": true, "columnGap": true, "columnRule": true, "columnRuleColor": true, "columnRuleStyle": true, "columnRuleWidth": true, "columns": true, "columnSpan": true, "columnWidth": true, "flex": true, "flexBasis": true, "flexDirection": true, "flexGrow": true, "flexFlow": true, "flexShrink": true, "flexWrap": true, "alignContent": true, "alignItems": true, "alignSelf": true, "justifyContent": true, "order": true, "transition": true, "transitionDelay": true, "transitionDuration": true, "transitionProperty": true, "transitionTimingFunction": true, "backdropFilter": true, "scrollSnapType": true, "scrollSnapPointsX": true, "scrollSnapPointsY": true, "scrollSnapDestination": true, "scrollSnapCoordinate": true, "shapeImageThreshold": true, "shapeImageMargin": true, "shapeImageOutside": true, "hyphens": true, "flowInto": true, "flowFrom": true, "regionFragment": true, "textSizeAdjust": true, "borderImage": true, "borderImageOutset": true, "borderImageRepeat": true, "borderImageSlice": true, "borderImageSource": true, "borderImageWidth": true, "tabSize": true, "objectFit": true, "objectPosition": true }, "Moz": { "appearance": true, "userSelect": true, "boxSizing": true, "textAlignLast": true, "textDecorationStyle": true, "textDecorationSkip": true, "textDecorationLine": true, "textDecorationColor": true, "tabSize": true, "hyphens": true, "fontFeatureSettings": true, "breakAfter": true, "breakBefore": true, "breakInside": true, "columnCount": true, "columnFill": true, "columnGap": true, "columnRule": true, "columnRuleColor": true, "columnRuleStyle": true, "columnRuleWidth": true, "columns": true, "columnSpan": true, "columnWidth": true }, "ms": { "flex": true, "flexBasis": false, "flexDirection": true, "flexGrow": false, "flexFlow": true, "flexShrink": false, "flexWrap": true, "alignContent": false, "alignItems": false, "alignSelf": false, "justifyContent": false, "order": false, "transform": true, "transformOrigin": true, "transformOriginX": true, "transformOriginY": true, "userSelect": true, "wrapFlow": true, "wrapThrough": true, "wrapMargin": true, "scrollSnapType": true, "scrollSnapPointsX": true, "scrollSnapPointsY": true, "scrollSnapDestination": true, "scrollSnapCoordinate": true, "touchAction": true, "hyphens": true, "flowInto": true, "flowFrom": true, "breakBefore": true, "breakAfter": true, "breakInside": true, "regionFragment": true, "gridTemplateColumns": true, "gridTemplateRows": true, "gridTemplateAreas": true, "gridTemplate": true, "gridAutoColumns": true, "gridAutoRows": true, "gridAutoFlow": true, "grid": true, "gridRowStart": true, "gridColumnStart": true, "gridRowEnd": true, "gridRow": true, "gridColumn": true, "gridColumnEnd": true, "gridColumnGap": true, "gridRowGap": true, "gridArea": true, "gridGap": true, "textSizeAdjust": true } };
+exports.default = { "Webkit": { "transform": true, "transformOrigin": true, "transformOriginX": true, "transformOriginY": true, "backfaceVisibility": true, "perspective": true, "perspectiveOrigin": true, "transformStyle": true, "transformOriginZ": true, "animation": true, "animationDelay": true, "animationDirection": true, "animationFillMode": true, "animationDuration": true, "animationIterationCount": true, "animationName": true, "animationPlayState": true, "animationTimingFunction": true, "appearance": true, "userSelect": true, "fontKerning": true, "textEmphasisPosition": true, "textEmphasis": true, "textEmphasisStyle": true, "textEmphasisColor": true, "boxDecorationBreak": true, "clipPath": true, "maskImage": true, "maskMode": true, "maskRepeat": true, "maskPosition": true, "maskClip": true, "maskOrigin": true, "maskSize": true, "maskComposite": true, "mask": true, "maskBorderSource": true, "maskBorderMode": true, "maskBorderSlice": true, "maskBorderWidth": true, "maskBorderOutset": true, "maskBorderRepeat": true, "maskBorder": true, "maskType": true, "textDecorationStyle": true, "textDecorationSkip": true, "textDecorationLine": true, "textDecorationColor": true, "filter": true, "fontFeatureSettings": true, "breakAfter": true, "breakBefore": true, "breakInside": true, "columnCount": true, "columnFill": true, "columnGap": true, "columnRule": true, "columnRuleColor": true, "columnRuleStyle": true, "columnRuleWidth": true, "columns": true, "columnSpan": true, "columnWidth": true, "flex": true, "flexBasis": true, "flexDirection": true, "flexGrow": true, "flexFlow": true, "flexShrink": true, "flexWrap": true, "alignContent": true, "alignItems": true, "alignSelf": true, "justifyContent": true, "order": true, "transition": true, "transitionDelay": true, "transitionDuration": true, "transitionProperty": true, "transitionTimingFunction": true, "backdropFilter": true, "scrollSnapType": true, "scrollSnapPointsX": true, "scrollSnapPointsY": true, "scrollSnapDestination": true, "scrollSnapCoordinate": true, "shapeImageThreshold": true, "shapeImageMargin": true, "shapeImageOutside": true, "hyphens": true, "flowInto": true, "flowFrom": true, "regionFragment": true, "textSizeAdjust": true }, "Moz": { "appearance": true, "userSelect": true, "boxSizing": true, "textAlignLast": true, "textDecorationStyle": true, "textDecorationSkip": true, "textDecorationLine": true, "textDecorationColor": true, "tabSize": true, "hyphens": true, "fontFeatureSettings": true, "breakAfter": true, "breakBefore": true, "breakInside": true, "columnCount": true, "columnFill": true, "columnGap": true, "columnRule": true, "columnRuleColor": true, "columnRuleStyle": true, "columnRuleWidth": true, "columns": true, "columnSpan": true, "columnWidth": true }, "ms": { "flex": true, "flexBasis": false, "flexDirection": true, "flexGrow": false, "flexFlow": true, "flexShrink": false, "flexWrap": true, "alignContent": false, "alignItems": false, "alignSelf": false, "justifyContent": false, "order": false, "transform": true, "transformOrigin": true, "transformOriginX": true, "transformOriginY": true, "userSelect": true, "wrapFlow": true, "wrapThrough": true, "wrapMargin": true, "scrollSnapType": true, "scrollSnapPointsX": true, "scrollSnapPointsY": true, "scrollSnapDestination": true, "scrollSnapCoordinate": true, "touchAction": true, "hyphens": true, "flowInto": true, "flowFrom": true, "breakBefore": true, "breakAfter": true, "breakInside": true, "regionFragment": true, "gridTemplateColumns": true, "gridTemplateRows": true, "gridTemplateAreas": true, "gridTemplate": true, "gridAutoColumns": true, "gridAutoRows": true, "gridAutoFlow": true, "grid": true, "gridRowStart": true, "gridColumnStart": true, "gridRowEnd": true, "gridRow": true, "gridColumn": true, "gridColumnEnd": true, "gridColumnGap": true, "gridRowGap": true, "gridArea": true, "gridGap": true, "textSizeAdjust": true } };
 module.exports = exports["default"];
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1520,7 +1547,19 @@ exports.default = function (str) {
 };
 
 module.exports = exports["default"];
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (property) {
+  return property.match(/^(Webkit|Moz|O|ms)/) !== null;
+};
+
+module.exports = exports["default"];
+},{}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1534,7 +1573,7 @@ exports.default = function (value) {
 };
 
 module.exports = exports['default'];
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1555,16 +1594,46 @@ exports.default = function (property, value) {
 };
 
 module.exports = exports['default'];
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = sortPrefixedStyle;
+
+var _isPrefixedProperty = require('./isPrefixedProperty');
+
+var _isPrefixedProperty2 = _interopRequireDefault(_isPrefixedProperty);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function sortPrefixedStyle(style) {
+  return Object.keys(style).sort(function (left, right) {
+    if ((0, _isPrefixedProperty2.default)(left) && !(0, _isPrefixedProperty2.default)(right)) {
+      return -1;
+    } else if (!(0, _isPrefixedProperty2.default)(left) && (0, _isPrefixedProperty2.default)(right)) {
+      return 1;
+    }
+    return 0;
+  }).reduce(function (sortedStyle, prop) {
+    sortedStyle[prop] = style[prop];
+    return sortedStyle;
+  }, {});
+}
+module.exports = exports['default'];
+},{"./isPrefixedProperty":22}],26:[function(require,module,exports){
 module.exports = require('./lib/static/prefixAll')
 
-},{"./lib/static/prefixAll":18}],24:[function(require,module,exports){
+},{"./lib/static/prefixAll":19}],27:[function(require,module,exports){
 (function (global){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
 	value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -1582,8 +1651,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _aphroditeNoImportant = require('aphrodite/no-important');
 
-// import Swipeable from 'react-swipeable';
-
 var _theme = require('./theme');
 
 var _theme2 = _interopRequireDefault(_theme);
@@ -1596,13 +1663,9 @@ var _componentsContainer = require('./components/Container');
 
 var _componentsContainer2 = _interopRequireDefault(_componentsContainer);
 
-var _componentsFooter = require('./components/Footer');
+var _componentsSwipeContainer = require('./components/SwipeContainer');
 
-var _componentsFooter2 = _interopRequireDefault(_componentsFooter);
-
-var _componentsHeader = require('./components/Header');
-
-var _componentsHeader2 = _interopRequireDefault(_componentsHeader);
+var _componentsSwipeContainer2 = _interopRequireDefault(_componentsSwipeContainer);
 
 var _componentsPaginatedThumbnails = require('./components/PaginatedThumbnails');
 
@@ -1611,6 +1674,10 @@ var _componentsPaginatedThumbnails2 = _interopRequireDefault(_componentsPaginate
 var _componentsPortal = require('./components/Portal');
 
 var _componentsPortal2 = _interopRequireDefault(_componentsPortal);
+
+var _componentsScrollLock = require('./components/ScrollLock');
+
+var _componentsScrollLock2 = _interopRequireDefault(_componentsScrollLock);
 
 var _utils = require('./utils');
 
@@ -1622,7 +1689,11 @@ var Lightbox = (function (_Component) {
 
 		_get(Object.getPrototypeOf(Lightbox.prototype), 'constructor', this).call(this);
 
-		_utils.bindFunctions.call(this, ['gotoNext', 'gotoPrev', 'handleKeyboardInput']);
+		this.state = {
+			swipeDeltaX: 0
+		};
+
+		_utils.bindFunctions.call(this, ['onClose', 'gotoNext', 'gotoPrev', 'onSwiping', 'onStopSwiping', 'handleKeyboardInput']);
 	}
 
 	_createClass(Lightbox, [{
@@ -1636,6 +1707,10 @@ var Lightbox = (function (_Component) {
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(nextProps) {
 			if (!_utils.canUseDom) return;
+
+			if (nextProps.currentImage !== this.props.currentImage) {
+				this.resetSwipe();
+			}
 
 			// preload images
 			if (nextProps.preloadNextImage) {
@@ -1666,12 +1741,12 @@ var Lightbox = (function (_Component) {
 			} else {
 				window.removeEventListener('keydown', this.handleKeyboardInput);
 			}
-
-			// handle body scroll
-			if (nextProps.isOpen) {
-				_utils.bodyScroll.blockScroll();
-			} else {
-				_utils.bodyScroll.allowScroll();
+		}
+	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			if (this.props.enableKeyboardInput) {
+				window.removeEventListener('keydown', this.handleKeyboardInput);
 			}
 		}
 
@@ -1695,9 +1770,19 @@ var Lightbox = (function (_Component) {
 			}
 		}
 	}, {
+		key: 'onClose',
+		value: function onClose(event) {
+			if (event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+			this.resetSwipe();
+			this.props.onClose();
+		}
+	}, {
 		key: 'gotoNext',
 		value: function gotoNext(event) {
-			if (this.props.currentImage === this.props.images.length - 1) return;
+			if (this.isLastImage()) return;
 			if (event) {
 				event.preventDefault();
 				event.stopPropagation();
@@ -1707,7 +1792,7 @@ var Lightbox = (function (_Component) {
 	}, {
 		key: 'gotoPrev',
 		value: function gotoPrev(event) {
-			if (this.props.currentImage === 0) return;
+			if (this.isFirstImage()) return;
 			if (event) {
 				event.preventDefault();
 				event.stopPropagation();
@@ -1724,10 +1809,55 @@ var Lightbox = (function (_Component) {
 				this.gotoNext(event);
 				return true;
 			} else if (event.keyCode === 27) {
-				this.props.onClose();
+				this.onClose();
 				return true;
 			}
 			return false;
+		}
+	}, {
+		key: 'onSwiping',
+		value: function onSwiping(event, deltaX, deltaY, absX, absY, velocity) {
+			if (this.isFirstImage() && deltaX < 0 || this.isLastImage() && deltaX > 0) return;
+			console.log('deltaX ' + deltaX + '  velocity ' + velocity);
+			this.setState({
+				swipeDeltaX: -deltaX
+			});
+		}
+	}, {
+		key: 'onStopSwiping',
+		value: function onStopSwiping(event, x, y, isFlick, velocity) {
+			if (event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+
+			var quickSwipe = velocity > 0.7 && Math.abs(this.state.swipeDeltaX) > window.innerWidth * 0.3;
+
+			var stayAtCurrentImage = !quickSwipe && Math.abs(this.state.swipeDeltaX) < window.innerWidth * 0.5;
+			if (stayAtCurrentImage) {
+				this.resetSwipe();
+			} else if (this.state.swipeDeltaX < 0) {
+				this.gotoNext();
+			} else if (this.state.swipeDeltaX > 0) {
+				this.gotoPrev();
+			}
+		}
+	}, {
+		key: 'resetSwipe',
+		value: function resetSwipe() {
+			this.setState({
+				swipeDeltaX: 0
+			});
+		}
+	}, {
+		key: 'isFirstImage',
+		value: function isFirstImage() {
+			return this.props.currentImage === 0;
+		}
+	}, {
+		key: 'isLastImage',
+		value: function isLastImage() {
+			return this.props.currentImage === this.props.images.length - 1;
 		}
 
 		// ==============================
@@ -1765,100 +1895,42 @@ var Lightbox = (function (_Component) {
 		value: function renderDialog() {
 			var _props = this.props;
 			var backdropClosesModal = _props.backdropClosesModal;
-			var customControls = _props.customControls;
 			var isOpen = _props.isOpen;
-			var onClose = _props.onClose;
-			var showCloseButton = _props.showCloseButton;
-			var showThumbnails = _props.showThumbnails;
-			var width = _props.width;
 
 			if (!isOpen) return _react2['default'].createElement('span', { key: 'closed' });
-
-			var offsetThumbnails = 0;
-			if (showThumbnails) {
-				offsetThumbnails = _theme2['default'].thumbnail.size + _theme2['default'].container.gutter.vertical;
-			}
 
 			return _react2['default'].createElement(
 				_componentsContainer2['default'],
 				{
 					key: 'open',
-					onClick: !!backdropClosesModal && onClose,
-					onTouchEnd: !!backdropClosesModal && onClose
+					onClick: !!backdropClosesModal && this.onClose,
+					onTouchEnd: !!backdropClosesModal && this.onClose
 				},
+				_react2['default'].createElement(_componentsSwipeContainer2['default'], _extends({
+					deltaX: this.state.swipeDeltaX,
+					onSwiping: this.onSwiping,
+					onStopSwiping: this.onStopSwiping,
+					onClose: this.onClose
+				}, this.props)),
 				_react2['default'].createElement(
 					'div',
-					{ className: (0, _aphroditeNoImportant.css)(classes.content), style: { marginBottom: offsetThumbnails, maxWidth: width } },
-					_react2['default'].createElement(_componentsHeader2['default'], {
-						customControls: customControls,
-						onClose: onClose,
-						showCloseButton: showCloseButton
-					}),
-					this.renderImages()
+					{ style: { display: 'flex', justifyContent: 'center' } },
+					this.renderThumbnails(),
+					this.renderArrowPrev(),
+					this.renderArrowNext()
 				),
-				this.renderThumbnails(),
-				this.renderArrowPrev(),
-				this.renderArrowNext()
-			);
-		}
-	}, {
-		key: 'renderImages',
-		value: function renderImages() {
-			var _props2 = this.props;
-			var currentImage = _props2.currentImage;
-			var images = _props2.images;
-			var imageCountSeparator = _props2.imageCountSeparator;
-			var onClickImage = _props2.onClickImage;
-			var showImageCount = _props2.showImageCount;
-			var showThumbnails = _props2.showThumbnails;
-
-			if (!images || !images.length) return null;
-
-			var image = images[currentImage];
-
-			var srcset = undefined;
-			var sizes = undefined;
-
-			if (image.srcset) {
-				srcset = image.srcset.join();
-				sizes = '100vw';
-			}
-
-			var thumbnailsSize = showThumbnails ? _theme2['default'].thumbnail.size : 0;
-			var heightOffset = _theme2['default'].header.height + _theme2['default'].footer.height + thumbnailsSize + _theme2['default'].container.gutter.vertical + 'px';
-
-			return _react2['default'].createElement(
-				'figure',
-				{ className: (0, _aphroditeNoImportant.css)(classes.figure) },
-				_react2['default'].createElement('img', {
-					className: (0, _aphroditeNoImportant.css)(classes.image),
-					onClick: !!onClickImage && onClickImage,
-					sizes: sizes,
-					src: image.src,
-					srcSet: srcset,
-					style: {
-						cursor: this.props.onClickImage ? 'pointer' : 'auto',
-						maxHeight: 'calc(100vh - ' + heightOffset + ')'
-					}
-				}),
-				_react2['default'].createElement(_componentsFooter2['default'], {
-					caption: images[currentImage].caption,
-					countCurrent: currentImage + 1,
-					countSeparator: imageCountSeparator,
-					countTotal: images.length,
-					showCount: showImageCount
-				})
+				_react2['default'].createElement(_componentsScrollLock2['default'], null)
 			);
 		}
 	}, {
 		key: 'renderThumbnails',
 		value: function renderThumbnails() {
-			var _props3 = this.props;
-			var images = _props3.images;
-			var currentImage = _props3.currentImage;
-			var onClickThumbnail = _props3.onClickThumbnail;
-			var showThumbnails = _props3.showThumbnails;
-			var thumbnailOffset = _props3.thumbnailOffset;
+			var _props2 = this.props;
+			var images = _props2.images;
+			var currentImage = _props2.currentImage;
+			var onClickThumbnail = _props2.onClickThumbnail;
+			var showThumbnails = _props2.showThumbnails;
+			var thumbnailOffset = _props2.thumbnailOffset;
 
 			if (!showThumbnails) return;
 
@@ -1872,7 +1944,6 @@ var Lightbox = (function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			// return this.renderDialog();
 			return _react2['default'].createElement(
 				_componentsPortal2['default'],
 				null,
@@ -1926,35 +1997,11 @@ Lightbox.childContextTypes = {
 	theme: _react.PropTypes.object.isRequired
 };
 
-var classes = _aphroditeNoImportant.StyleSheet.create({
-	content: {
-		position: 'relative'
-	},
-	figure: {
-		margin: 0 },
-	// remove browser default
-	image: {
-		display: 'block', // removes browser default gutter
-		height: 'auto',
-		margin: '0 auto', // maintain center on very short screens OR very narrow image
-		maxWidth: '100%',
-
-		// disable user select
-		WebkitTouchCallout: 'none',
-		userSelect: 'none'
-	}
-});
-
 exports['default'] = Lightbox;
 module.exports = exports['default'];
-/*
-Re-implement when react warning "unknown props"
-https://fb.me/react-unknown-prop is resolved
-<Swipeable onSwipedLeft={this.gotoNext} onSwipedRight={this.gotoPrev} />
-*/
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./components/Arrow":25,"./components/Container":26,"./components/Footer":27,"./components/Header":28,"./components/PaginatedThumbnails":30,"./components/Portal":32,"./theme":38,"./utils":43,"aphrodite/no-important":6}],25:[function(require,module,exports){
+},{"./components/Arrow":28,"./components/Container":29,"./components/PaginatedThumbnails":34,"./components/Portal":36,"./components/ScrollLock":37,"./components/SwipeContainer":38,"./theme":44,"./utils":48,"aphrodite/no-important":6}],28:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2065,7 +2112,7 @@ var defaultStyles = {
 module.exports = Arrow;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":38,"../utils":43,"./Icon":29,"aphrodite/no-important":6}],26:[function(require,module,exports){
+},{"../theme":44,"../utils":48,"./Icon":32,"aphrodite/no-important":6}],29:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2105,12 +2152,12 @@ Container.contextTypes = {
 
 var defaultStyles = {
 	container: {
-		alignItems: 'center',
+		//alignItems: 'center',
 		backgroundColor: _theme2['default'].container.background,
 		boxSizing: 'border-box',
-		display: 'flex',
+		//display: 'flex',
 		height: '100%',
-		justifyContent: 'center',
+		//justifyContent: 'center',
 		left: 0,
 		paddingBottom: _theme2['default'].container.gutter.vertical,
 		paddingLeft: _theme2['default'].container.gutter.horizontal,
@@ -2126,7 +2173,7 @@ var defaultStyles = {
 module.exports = Container;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":38,"../utils":43,"aphrodite/no-important":6}],27:[function(require,module,exports){
+},{"../theme":44,"../utils":48,"aphrodite/no-important":6}],30:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2221,7 +2268,7 @@ var defaultStyles = {
 module.exports = Footer;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":38,"../utils":43,"aphrodite/no-important":6}],28:[function(require,module,exports){
+},{"../theme":44,"../utils":48,"aphrodite/no-important":6}],31:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2309,7 +2356,7 @@ var defaultStyles = {
 module.exports = Header;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":38,"../utils":43,"./Icon":29,"aphrodite/no-important":6}],29:[function(require,module,exports){
+},{"../theme":44,"../utils":48,"./Icon":32,"aphrodite/no-important":6}],32:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2356,7 +2403,139 @@ exports['default'] = Icon;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../icons":37}],30:[function(require,module,exports){
+},{"../icons":43}],33:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _aphroditeNoImportant = require('aphrodite/no-important');
+
+var _theme = require('../theme');
+
+var _theme2 = _interopRequireDefault(_theme);
+
+var _Footer = require('./Footer');
+
+var _Footer2 = _interopRequireDefault(_Footer);
+
+var _Header = require('./Header');
+
+var _Header2 = _interopRequireDefault(_Header);
+
+function renderImage(_ref) {
+  var props = _ref.props;
+  var image = _ref.image;
+  var isVisible = _ref.isVisible;
+  var images = props.images;
+  var imageCountSeparator = props.imageCountSeparator;
+  var index = props.index;
+  var onClickImage = props.onClickImage;
+  var showImageCount = props.showImageCount;
+  var showThumbnails = props.showThumbnails;
+
+  var srcset = undefined;
+  var sizes = undefined;
+
+  if (image.srcset) {
+    srcset = image.srcset.join();
+    sizes = '100vw';
+  }
+
+  var thumbnailsSize = showThumbnails ? _theme2['default'].thumbnail.size : 0;
+  var heightOffset = _theme2['default'].header.height + _theme2['default'].footer.height + thumbnailsSize + _theme2['default'].container.gutter.vertical + 'px';
+
+  return _react2['default'].createElement(
+    'figure',
+    { className: (0, _aphroditeNoImportant.css)(classes.figure) },
+    _react2['default'].createElement('img', {
+      className: (0, _aphroditeNoImportant.css)(classes.image),
+      onClick: !!onClickImage && onClickImage,
+      sizes: sizes,
+      src: isVisible ? image.src : "data:",
+      srcSet: isVisible ? srcset : null,
+      style: {
+        cursor: onClickImage ? 'pointer' : 'auto',
+        maxHeight: 'calc(100vh - ' + heightOffset + ')'
+      }
+    }),
+    _react2['default'].createElement(_Footer2['default'], {
+      caption: image.caption,
+      countCurrent: index + 1,
+      countSeparator: imageCountSeparator,
+      countTotal: images.length,
+      showCount: showImageCount
+    })
+  );
+}
+
+var ImageContainer = function ImageContainer(props) {
+  var customControls = props.customControls;
+  var showCloseButton = props.showCloseButton;
+  var width = props.width;
+  var image = props.image;
+  var isVisible = props.isVisible;
+  var onClose = props.onClose;
+  var marginBottom = props.marginBottom;
+
+  var horizontalPadding = _theme2['default'].container.gutter.horizontal;
+
+  return _react2['default'].createElement(
+    'div',
+    {
+      className: (0, _aphroditeNoImportant.css)(classes.contentContainer),
+      style: { width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }
+    },
+    _react2['default'].createElement(
+      'div',
+      { className: (0, _aphroditeNoImportant.css)(classes.content), style: { marginBottom: marginBottom, maxWidth: width } },
+      _react2['default'].createElement(_Header2['default'], {
+        customControls: customControls,
+        onClose: onClose,
+        showCloseButton: showCloseButton
+      }),
+      renderImage({ props: props, image: image, isVisible: isVisible })
+    )
+  );
+};
+
+var classes = _aphroditeNoImportant.StyleSheet.create({
+  contentContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignSelf: 'center'
+  },
+  content: {
+    position: 'relative'
+  },
+  figure: {
+    margin: 0 // remove browser default
+  },
+  image: {
+    display: 'block', // removes browser default gutter
+    height: 'auto',
+    margin: '0 auto', // maintain center on very short screens OR very narrow image
+    maxWidth: '100%',
+
+    // disable user select
+    WebkitTouchCallout: 'none',
+    userSelect: 'none'
+  }
+});
+
+exports['default'] = ImageContainer;
+module.exports = exports['default'];
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../theme":44,"./Footer":30,"./Header":31,"aphrodite/no-important":6}],34:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2588,7 +2767,7 @@ PaginatedThumbnails.propTypes = {
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":38,"./Arrow":25,"./Thumbnail":33,"aphrodite/no-important":6}],31:[function(require,module,exports){
+},{"../theme":44,"./Arrow":28,"./Thumbnail":39,"aphrodite/no-important":6}],35:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2646,7 +2825,7 @@ exports['default'] = PassContext;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],32:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2748,7 +2927,208 @@ Portal.contextTypes = {
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./PassContext":31,"react-addons-css-transition-group":undefined,"react-dom":undefined}],33:[function(require,module,exports){
+},{"./PassContext":35,"react-addons-css-transition-group":undefined,"react-dom":undefined}],37:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+	value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var lockCount = 0;
+
+var ScrollLock = (function (_Component) {
+	_inherits(ScrollLock, _Component);
+
+	function ScrollLock() {
+		_classCallCheck(this, ScrollLock);
+
+		_get(Object.getPrototypeOf(ScrollLock.prototype), 'constructor', this).apply(this, arguments);
+	}
+
+	_createClass(ScrollLock, [{
+		key: 'componentWillMount',
+		value: function componentWillMount() {
+			if (typeof window === 'undefined') return;
+
+			lockCount++;
+			if (lockCount > 1) return;
+
+			//	FIXME iOS ignores overflow on body
+			try {
+				var scrollBarWidth = window.innerWidth - document.body.clientWidth;
+
+				var target = document.body;
+
+				target.style.paddingRight = scrollBarWidth + 'px';
+				target.style.overflowY = 'hidden';
+			} catch (err) {
+				console.error('Failed to find body element. Err:', err);
+			}
+		}
+	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			if (typeof window === 'undefined' || lockCount === 0) return;
+
+			lockCount--;
+			if (lockCount > 0) return; // Still locked
+
+			//	FIXME iOS ignores overflow on body
+			try {
+				var target = document.body;
+
+				target.style.paddingRight = '';
+				target.style.overflowY = '';
+			} catch (err) {
+				console.error('Failed to find body element. Err:', err);
+			}
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return null;
+		}
+	}]);
+
+	return ScrollLock;
+})(_react.Component);
+
+exports['default'] = ScrollLock;
+module.exports = exports['default'];
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],38:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSwipeable = require('react-swipeable');
+
+var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
+
+var _reactMotion = require('react-motion');
+
+var _aphroditeNoImportant = require('aphrodite/no-important');
+
+var _theme = require('../theme');
+
+var _theme2 = _interopRequireDefault(_theme);
+
+var _ImageContainer = require('./ImageContainer');
+
+var _ImageContainer2 = _interopRequireDefault(_ImageContainer);
+
+function isImageVisible(imageIndex, deltaXWithContainerPadding) {
+  var containerPadding = _theme2['default'].container.gutter.horizontal;
+  var marginLeft = Math.abs(deltaXWithContainerPadding) - containerPadding;
+  var visibleIndex = Math.floor(marginLeft / window.innerWidth);
+  if (visibleIndex === imageIndex) {
+    return true;
+  }
+
+  var isNextImageVisible = marginLeft - visibleIndex * window.innerWidth > -200;
+  return isNextImageVisible && imageIndex === visibleIndex + 1;
+}
+
+var SwipeContainer = function SwipeContainer(props) {
+  var currentImage = props.currentImage;
+  var showThumbnails = props.showThumbnails;
+  var images = props.images;
+  var onSwiping = props.onSwiping;
+  var onStopSwiping = props.onStopSwiping;
+
+  var offsetThumbnails = 0;
+  if (showThumbnails) {
+    offsetThumbnails = _theme2['default'].thumbnail.size + _theme2['default'].container.gutter.vertical;
+  }
+
+  var horizontalPadding = _theme2['default'].container.gutter.horizontal;
+  var springConfig = { stiffness: 300, damping: 30 };
+  var swipeDeltaX = props.deltaX;
+  var motionStyle = { deltaX: (0, _reactMotion.spring)(-currentImage * window.innerWidth - horizontalPadding + swipeDeltaX, springConfig) };
+
+  return _react2['default'].createElement(
+    _reactSwipeable2['default'],
+    {
+      className: (0, _aphroditeNoImportant.css)(classes.swipeable),
+      onSwiped: onStopSwiping,
+      onSwiping: onSwiping,
+      preventDefaultTouchmoveEvent: true,
+      stopPropagation: true,
+      delta: 0
+    },
+    _react2['default'].createElement(
+      _reactMotion.Motion,
+      { style: motionStyle },
+      function (_ref) {
+        var deltaX = _ref.deltaX;
+        return _react2['default'].createElement(
+          'div',
+          {
+            className: (0, _aphroditeNoImportant.css)(classes.swipeContainer),
+            style: {
+              width: window.innerWidth * images.length,
+              transform: 'translate(' + deltaX + 'px, 0)',
+              WebkitTransform: 'translate(' + deltaX + 'px, 0)'
+            }
+          },
+          images.map(function (image, index) {
+            return _react2['default'].createElement(_ImageContainer2['default'], _extends({
+              key: index,
+              index: index,
+              marginBottom: offsetThumbnails,
+              image: image,
+              isVisible: isImageVisible(index, deltaX)
+            }, props));
+          })
+        );
+      }
+    )
+  );
+};
+
+var classes = _aphroditeNoImportant.StyleSheet.create({
+  swipeable: {
+    height: '100%'
+  },
+  swipeContainer: {
+    display: 'flex',
+    height: '100%',
+    willChange: 'transform'
+  }
+});
+
+exports['default'] = SwipeContainer;
+module.exports = exports['default'];
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../theme":44,"./ImageContainer":33,"aphrodite/no-important":6,"react-motion":undefined,"react-swipeable":undefined}],39:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2783,8 +3163,11 @@ function Thumbnail(_ref, _ref2) {
 
 	return _react2['default'].createElement('div', {
 		className: (0, _aphroditeNoImportant.css)(classes.thumbnail, active && classes.thumbnail__active),
-		onClick: function () {
-			return onClick(index);
+		onClick: function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			onClick(index);
 		},
 		style: { backgroundImage: 'url("' + url + '")' }
 	});
@@ -2824,7 +3207,7 @@ exports['default'] = Thumbnail;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../theme":38,"../utils":43,"aphrodite/no-important":6}],34:[function(require,module,exports){
+},{"../theme":44,"../utils":48,"aphrodite/no-important":6}],40:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2837,7 +3220,7 @@ exports["default"] = function (fill) {
 
 module.exports = exports["default"];
 
-},{}],35:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2850,7 +3233,7 @@ exports["default"] = function (fill) {
 
 module.exports = exports["default"];
 
-},{}],36:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2863,7 +3246,7 @@ exports["default"] = function (fill) {
 
 module.exports = exports["default"];
 
-},{}],37:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -2872,7 +3255,7 @@ module.exports = {
 	close: require('./close')
 };
 
-},{"./arrowLeft":34,"./arrowRight":35,"./close":36}],38:[function(require,module,exports){
+},{"./arrowLeft":40,"./arrowRight":41,"./close":42}],44:[function(require,module,exports){
 // ==============================
 // THEME
 // ==============================
@@ -2931,7 +3314,7 @@ theme.arrow = {
 
 module.exports = theme;
 
-},{}],39:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 /**
 	Bind multiple component methods:
 
@@ -2954,61 +3337,14 @@ module.exports = function bindFunctions(functions) {
 	});
 };
 
-},{}],40:[function(require,module,exports){
-// Don't try and apply overflow/padding if the scroll is already blocked
-'use strict';
-
-var bodyBlocked = false;
-
-var allowScroll = function allowScroll() {
-	if (typeof window === 'undefined' || !bodyBlocked) return;
-
-	//  FIXME iOS ignores overflow on body
-
-	try {
-		var target = document.body;
-
-		target.style.paddingRight = '';
-		target.style.overflowY = '';
-
-		bodyBlocked = false;
-	} catch (err) {
-		console.error('Failed to find body element. Err:', err);
-	}
-};
-
-var blockScroll = function blockScroll() {
-	if (typeof window === 'undefined' || bodyBlocked) return;
-
-	//  FIXME iOS ignores overflow on body
-
-	try {
-		var scrollBarWidth = window.innerWidth - document.body.clientWidth;
-
-		var target = document.body;
-
-		target.style.paddingRight = scrollBarWidth + 'px';
-		target.style.overflowY = 'hidden';
-
-		bodyBlocked = true;
-	} catch (err) {
-		console.error('Failed to find body element. Err:', err);
-	}
-};
-
-module.exports = {
-	allowScroll: allowScroll,
-	blockScroll: blockScroll
-};
-
-},{}],41:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 // Return true if window + document
 
 'use strict';
 
 module.exports = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 
-},{}],42:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -3035,7 +3371,7 @@ function deepMerge(target) {
 
 module.exports = deepMerge;
 
-},{}],43:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -3043,10 +3379,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 var _bindFunctions = require('./bindFunctions');
 
 var _bindFunctions2 = _interopRequireDefault(_bindFunctions);
-
-var _bodyScroll = require('./bodyScroll');
-
-var _bodyScroll2 = _interopRequireDefault(_bodyScroll);
 
 var _canUseDom = require('./canUseDom');
 
@@ -3058,10 +3390,9 @@ var _deepMerge2 = _interopRequireDefault(_deepMerge);
 
 module.exports = {
 	bindFunctions: _bindFunctions2['default'],
-	bodyScroll: _bodyScroll2['default'],
 	canUseDom: _canUseDom2['default'],
 	deepMerge: _deepMerge2['default']
 };
 
-},{"./bindFunctions":39,"./bodyScroll":40,"./canUseDom":41,"./deepMerge":42}]},{},[24])(24)
+},{"./bindFunctions":45,"./canUseDom":46,"./deepMerge":47}]},{},[27])(27)
 });
