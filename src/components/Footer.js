@@ -25,16 +25,16 @@ function Footer ({
 		</div>)
 		: <span />;
 
-	return (
-		<div className={css(classes.footer)} {...props}>
-			{caption ? (
-				<figcaption className={css(classes.footerCaption)}>
-					{caption}
-				</figcaption>
-			) : <span />}
-			{imageCount}
-		</div>
-	);
+		return (
+			<div className={'desc_container ' + css(classes.footer)} {...props}>
+				{caption ? (
+					<div className="footerBackground">
+						<figcaption id="photoDescription" className={'lightbox_image_caption ' + css(classes.footerCaption)} dangerouslySetInnerHTML={{ __html: caption }}>
+						</figcaption>
+					</div>
+				) : <span />}
+			</div>
+		);
 };
 
 Footer.propTypes = {
