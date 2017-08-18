@@ -2101,19 +2101,23 @@ var ImageContainer = function ImageContainer(props) {
 
   return _react2['default'].createElement(
     'div',
-    {
-      className: (0, _aphroditeNoImportant.css)(classes.contentContainer),
-      style: { width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }
-    },
+    null,
+    _react2['default'].createElement(_Header2['default'], {
+      customControls: customControls,
+      onClose: onClose,
+      showCloseButton: showCloseButton
+    }),
     _react2['default'].createElement(
       'div',
-      null,
-      _react2['default'].createElement(_Header2['default'], {
-        customControls: customControls,
-        onClose: onClose,
-        showCloseButton: showCloseButton
-      }),
-      renderImage({ props: props, image: image, isVisible: isVisible })
+      {
+        className: (0, _aphroditeNoImportant.css)(classes.contentContainer),
+        style: { width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }
+      },
+      _react2['default'].createElement(
+        'div',
+        null,
+        renderImage({ props: props, image: image, isVisible: isVisible })
+      )
     )
   );
 };

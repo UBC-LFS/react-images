@@ -64,18 +64,20 @@ const ImageContainer = (props) => {
   const horizontalPadding = theme.container.gutter.horizontal;
 
   return (
-    <div
-      className={css(classes.contentContainer)}
-      style={{ width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
-    >
+    <div>
+      <Header
+        customControls={customControls}
+        onClose={onClose}
+        showCloseButton={showCloseButton}
+      />
+      <div
+        className={css(classes.contentContainer)}
+        style={{ width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
+      >
       <div>
-        <Header
-          customControls={customControls}
-          onClose={onClose}
-          showCloseButton={showCloseButton}
-        />
         {renderImage({ props, image, isVisible })}
       </div>
+    </div>
     </div>
   )
 };
