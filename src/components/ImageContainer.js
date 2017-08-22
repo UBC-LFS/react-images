@@ -66,7 +66,7 @@ const ImageContainer = (props) => {
   return (
     <div
       className={css(classes.contentContainer)}
-      style={{ width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
+      style={{ width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding, paddingTop: horizontalPadding }}
     >
       <div className={css(classes.contentHead)} style={{ marginBottom: marginBottom, width: (window.innerWidth - 30) }}>
       <Header
