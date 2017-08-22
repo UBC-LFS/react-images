@@ -51,7 +51,7 @@ const defaultStyles = {
 		border: 'none',
 		cursor: 'pointer',
 		outline: 'none',
-		position: 'fixed',
+		position: 'absolute',
 		top: 0,
 		right: 0,
 		verticalAlign: 'bottom',

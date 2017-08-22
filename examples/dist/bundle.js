@@ -1957,7 +1957,7 @@ var defaultStyles = {
 		border: 'none',
 		cursor: 'pointer',
 		outline: 'none',
-		position: 'fixed',
+		position: 'absolute',
 		top: 0,
 		right: 0,
 		verticalAlign: 'bottom',
@@ -2101,21 +2101,21 @@ var ImageContainer = function ImageContainer(props) {
 
   return _react2['default'].createElement(
     'div',
-    null,
-    _react2['default'].createElement(_Header2['default'], {
-      customControls: customControls,
-      onClose: onClose,
-      showCloseButton: showCloseButton
-    }),
+    {
+      className: (0, _aphroditeNoImportant.css)(classes.contentContainer),
+      style: { width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }
+    },
     _react2['default'].createElement(
       'div',
-      {
-        className: (0, _aphroditeNoImportant.css)(classes.contentContainer),
-        style: { width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }
-      },
+      { className: (0, _aphroditeNoImportant.css)(classes.contentHead), style: { marginBottom: marginBottom, width: window.innerWidth - 30 } },
+      _react2['default'].createElement(_Header2['default'], {
+        customControls: customControls,
+        onClose: onClose,
+        showCloseButton: showCloseButton
+      }),
       _react2['default'].createElement(
         'div',
-        null,
+        { className: (0, _aphroditeNoImportant.css)(classes.content), style: { marginBottom: marginBottom, maxWidth: window.innerWidth - 30 } },
         renderImage({ props: props, image: image, isVisible: isVisible })
       )
     )
@@ -2127,6 +2127,9 @@ var classes = _aphroditeNoImportant.StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignSelf: 'center'
+  },
+  contentHead: {
+    position: 'relative'
   },
   content: {
     position: 'relative'

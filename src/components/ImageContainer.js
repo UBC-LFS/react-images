@@ -64,17 +64,17 @@ const ImageContainer = (props) => {
   const horizontalPadding = theme.container.gutter.horizontal;
 
   return (
-    <div>
+    <div
+      className={css(classes.contentContainer)}
+      style={{ width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
+    >
+      <div className={css(classes.contentHead)} style={{ marginBottom: marginBottom, width: (window.innerWidth - 30) }}>
       <Header
         customControls={customControls}
         onClose={onClose}
         showCloseButton={showCloseButton}
       />
-      <div
-        className={css(classes.contentContainer)}
-        style={{ width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding }}
-      >
-      <div>
+      <div className={css(classes.content)} style={{ marginBottom: marginBottom, maxWidth: (window.innerWidth - 30) }}>
         {renderImage({ props, image, isVisible })}
       </div>
     </div>
@@ -87,6 +87,9 @@ const classes = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignSelf: 'center'
+  },
+  contentHead: {
+    position: 'relative'
   },
   content: {
     position: 'relative'
