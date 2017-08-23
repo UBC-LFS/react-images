@@ -2053,6 +2053,8 @@ function renderImage(_ref) {
   var showImageCount = props.showImageCount;
   var showThumbnails = props.showThumbnails;
 
+  console.log(props);
+
   var srcset = undefined;
   var sizes = undefined;
 
