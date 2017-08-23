@@ -86,7 +86,8 @@ const classes = StyleSheet.create({
   contentContainer: {
     display: 'flex',
     justifyContent: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    height: '98vh',
   },
   contentHead: {
     position: 'relative'
