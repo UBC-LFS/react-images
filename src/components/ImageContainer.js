@@ -58,15 +58,35 @@ const ImageContainer = (props) => {
     image,
     isVisible,
     onClose,
-    marginBottom
+    marginBottom,
+    browserHeight,
+    browserWidth
   } = props;
 
+  console.log('ImageContainter:', props)
+
   const horizontalPadding = theme.container.gutter.horizontal;
+
+  const setDesciptionMaxHeight = () => {
+    let imageMaxHeight = browserHeight;
+    imageMaxHeight -= 50; // substract contentContainer padding (10px) and button div height (40px)
+    let estimateImageHeight = 0;
+    if (image.height > 0.6 * browserHeight) {
+      estimateImageHeight = 0.6 * browserHeight;
+    } else if (image.width > browserWidth) {
+      estimateImageHeight = (browserWidth - 30) * (image.height / image.width);
+    } else {
+      estimateImageHeight = image.height;
+    }
+    imageMaxHeight -= estimateImageHeight - 26;
+    console.log(imageMaxHeight)
+    return imageMaxHeight;
+  }
 
   return (
     <div
       className={css(classes.contentContainer)}
-      style={{ width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding, paddingTop: horizontalPadding, height: '98vh'}}
+      style={{ width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding, paddingTop: horizontalPadding}}
     >
       <div className={css(classes.contentHead)} style={{ marginBottom: marginBottom, width: (window.innerWidth - 30) }}>
       <Header
@@ -87,6 +107,7 @@ const classes = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignSelf: 'center',
+    height: '98vh'
   },
   contentHead: {
     position: 'relative'
