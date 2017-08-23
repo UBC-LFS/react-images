@@ -2485,7 +2485,7 @@ var ImageContainer = function ImageContainer(props) {
     'div',
     {
       className: (0, _aphroditeNoImportant.css)(classes.contentContainer),
-      style: { width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding, paddingTop: horizontalPadding }
+      style: { width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding, paddingTop: horizontalPadding, height: '98vh' }
     },
     _react2['default'].createElement(
       'div',
@@ -2508,8 +2508,7 @@ var classes = _aphroditeNoImportant.StyleSheet.create({
   contentContainer: {
     display: 'flex',
     justifyContent: 'center',
-    alignSelf: 'center',
-    height: '98vh'
+    alignSelf: 'center'
   },
   contentHead: {
     position: 'relative'

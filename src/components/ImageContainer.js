@@ -66,7 +66,7 @@ const ImageContainer = (props) => {
   return (
     <div
       className={css(classes.contentContainer)}
-      style={{ width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding, paddingTop: horizontalPadding }}
+      style={{ width: window.innerWidth, paddingLeft: horizontalPadding, paddingRight: horizontalPadding, paddingTop: horizontalPadding, height: '98vh'}}
     >
       <div className={css(classes.contentHead)} style={{ marginBottom: marginBottom, width: (window.innerWidth - 30) }}>
       <Header
@@ -87,7 +87,6 @@ const classes = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignSelf: 'center',
-    height: '98vh',
   },
   contentHead: {
     position: 'relative'
