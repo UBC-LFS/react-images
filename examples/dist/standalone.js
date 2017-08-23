@@ -2514,9 +2514,11 @@ var classes = _aphroditeNoImportant.StyleSheet.create({
     position: 'relative'
   },
   content: {
-    position: 'relative'
+    position: 'relative',
+    height: 'calc(100% - 40px)'
   },
   figure: {
+    height: '100%',
     margin: 0 // remove browser default
   },
   image: {
@@ -2524,6 +2526,7 @@ var classes = _aphroditeNoImportant.StyleSheet.create({
     height: 'auto',
     margin: '0 auto', // maintain center on very short screens OR very narrow image
     maxWidth: '100%',
+    flex: '0 1 auto',
 
     // disable user select
     WebkitTouchCallout: 'none',
