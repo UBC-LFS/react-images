@@ -2104,8 +2104,8 @@ var ImageContainer = function ImageContainer(props) {
   var horizontalPadding = _theme2['default'].container.gutter.horizontal;
 
   var setDesciptionMaxHeight = function setDesciptionMaxHeight() {
-    var imageMaxHeight = browserHeight;
-    imageMaxHeight -= 50; // substract contentContainer padding (10px) and button div height (40px)
+    var descriptionMaxHeight = browserHeight;
+    descriptionMaxHeight -= 50; // substract contentContainer padding (10px) and button div height (40px)
     var estimateImageHeight = 0;
     if (image.height > 0.6 * browserHeight) {
       estimateImageHeight = 0.6 * browserHeight;
@@ -2114,9 +2114,9 @@ var ImageContainer = function ImageContainer(props) {
     } else {
       estimateImageHeight = image.height;
     }
-    imageMaxHeight -= estimateImageHeight - 26;
-    console.log(imageMaxHeight);
-    return imageMaxHeight;
+    descriptionMaxHeight -= estimateImageHeight - 26;
+    console.log(descriptionMaxHeight);
+    return descriptionMaxHeight;
   };
 
   return _react2['default'].createElement(
@@ -2131,7 +2131,8 @@ var ImageContainer = function ImageContainer(props) {
       _react2['default'].createElement(_Header2['default'], {
         customControls: customControls,
         onClose: onClose,
-        showCloseButton: showCloseButton
+        showCloseButton: showCloseButton,
+        descriptionMaxHeight: setDesciptionMaxHeight()
       }),
       _react2['default'].createElement(
         'div',

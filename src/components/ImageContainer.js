@@ -68,8 +68,8 @@ const ImageContainer = (props) => {
   const horizontalPadding = theme.container.gutter.horizontal;
 
   const setDesciptionMaxHeight = () => {
-    let imageMaxHeight = browserHeight;
-    imageMaxHeight -= 50; // substract contentContainer padding (10px) and button div height (40px)
+    let descriptionMaxHeight = browserHeight;
+    descriptionMaxHeight -= 50; // substract contentContainer padding (10px) and button div height (40px)
     let estimateImageHeight = 0;
     if (image.height > 0.6 * browserHeight) {
       estimateImageHeight = 0.6 * browserHeight;
@@ -78,9 +78,9 @@ const ImageContainer = (props) => {
     } else {
       estimateImageHeight = image.height;
     }
-    imageMaxHeight -= estimateImageHeight - 26;
-    console.log(imageMaxHeight)
-    return imageMaxHeight;
+    descriptionMaxHeight -= estimateImageHeight - 26;
+    console.log(descriptionMaxHeight)
+    return descriptionMaxHeight;
   }
 
   return (
@@ -93,6 +93,7 @@ const ImageContainer = (props) => {
         customControls={customControls}
         onClose={onClose}
         showCloseButton={showCloseButton}
+        descriptionMaxHeight={setDesciptionMaxHeight()}
       />
       <div className={css(classes.content)} style={{ marginBottom: marginBottom, maxWidth: (window.innerWidth - 30) }}>
         {renderImage({ props, image, isVisible })}
