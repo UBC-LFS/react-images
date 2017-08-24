@@ -9,6 +9,7 @@ function Footer ({
 	countSeparator,
 	countTotal,
 	showCount,
+	descriptionMaxHeight,
 	...props,
 }, {
 	theme,
@@ -25,16 +26,18 @@ function Footer ({
 		</div>)
 		: <span />;
 
-		return (
-			<div className={'desc_container ' + css(classes.footer)} {...props}>
-				{caption ? (
-					<div className="footerBackground">
-						<figcaption id="photoDescription" className={'lightbox_image_caption ' + css(classes.footerCaption)} dangerouslySetInnerHTML={{ __html: caption }}>
-						</figcaption>
-					</div>
-				) : <span />}
-			</div>
-		);
+	console.log("Description: ", descriptionMaxHeight);
+
+	return (
+		<div className={'desc_container ' + css(classes.footer)} {...props}>
+			{caption ? (
+				<div className="footerBackground">
+					<figcaption id="photoDescription" className={'lightbox_image_caption ' + css(classes.footerCaption)} dangerouslySetInnerHTML={{ __html: caption }}>
+					</figcaption>
+				</div>
+			) : <span />}
+		</div>
+	);
 };
 
 Footer.propTypes = {

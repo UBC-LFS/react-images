@@ -1820,8 +1820,9 @@ function Footer(_ref, _ref2) {
 	var countSeparator = _ref.countSeparator;
 	var countTotal = _ref.countTotal;
 	var showCount = _ref.showCount;
+	var descriptionMaxHeight = _ref.descriptionMaxHeight;
 
-	var props = _objectWithoutProperties(_ref, ['caption', 'countCurrent', 'countSeparator', 'countTotal', 'showCount']);
+	var props = _objectWithoutProperties(_ref, ['caption', 'countCurrent', 'countSeparator', 'countTotal', 'showCount', 'descriptionMaxHeight']);
 
 	var theme = _ref2.theme;
 
@@ -1836,6 +1837,8 @@ function Footer(_ref, _ref2) {
 		countSeparator,
 		countTotal
 	) : _react2['default'].createElement('span', null);
+
+	console.log("Description: ", descriptionMaxHeight);
 
 	return _react2['default'].createElement(
 		'div',
@@ -2046,6 +2049,7 @@ function renderImage(_ref) {
   var props = _ref.props;
   var image = _ref.image;
   var isVisible = _ref.isVisible;
+  var descriptionMaxHeight = _ref.descriptionMaxHeight;
   var images = props.images;
   var imageCountSeparator = props.imageCountSeparator;
   var index = props.index;
@@ -2085,7 +2089,8 @@ function renderImage(_ref) {
       countCurrent: index + 1,
       countSeparator: imageCountSeparator,
       countTotal: images.length,
-      showCount: showImageCount
+      showCount: showImageCount,
+      descriptionMaxHeight: descriptionMaxHeight
     })
   );
 }
@@ -2122,6 +2127,8 @@ var ImageContainer = function ImageContainer(props) {
     return descriptionMaxHeight;
   };
 
+  var descriptionMaxHeight = setDesciptionMaxHeight();
+
   return _react2['default'].createElement(
     'div',
     {
@@ -2134,13 +2141,12 @@ var ImageContainer = function ImageContainer(props) {
       _react2['default'].createElement(_Header2['default'], {
         customControls: customControls,
         onClose: onClose,
-        showCloseButton: showCloseButton,
-        descriptionMaxHeight: setDesciptionMaxHeight()
+        showCloseButton: showCloseButton
       }),
       _react2['default'].createElement(
         'div',
         { className: (0, _aphroditeNoImportant.css)(classes.content), style: { marginBottom: marginBottom, maxWidth: window.innerWidth - 30 } },
-        renderImage({ props: props, image: image, isVisible: isVisible })
+        renderImage({ props: props, image: image, isVisible: isVisible, descriptionMaxHeight: descriptionMaxHeight })
       )
     )
   );

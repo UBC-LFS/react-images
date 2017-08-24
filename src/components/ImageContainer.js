@@ -5,7 +5,7 @@ import theme from '../theme';
 import Footer from './Footer';
 import Header from './Header';
 
-function renderImage ({ props, image, isVisible }) {
+function renderImage ({ props, image, isVisible, descriptionMaxHeight }) {
   const {
     images,
     imageCountSeparator,
@@ -47,6 +47,7 @@ function renderImage ({ props, image, isVisible }) {
         countSeparator={imageCountSeparator}
         countTotal={images.length}
         showCount={showImageCount}
+        descriptionMaxHeight={descriptionMaxHeight}
       />
     </figure>
   );
@@ -86,6 +87,8 @@ const ImageContainer = (props) => {
     return descriptionMaxHeight;
   }
 
+  const descriptionMaxHeight = setDesciptionMaxHeight();
+
   return (
     <div
       className={css(classes.contentContainer)}
@@ -96,10 +99,9 @@ const ImageContainer = (props) => {
         customControls={customControls}
         onClose={onClose}
         showCloseButton={showCloseButton}
-        descriptionMaxHeight={setDesciptionMaxHeight()}
       />
       <div className={css(classes.content)} style={{ marginBottom: marginBottom, maxWidth: (window.innerWidth - 30) }}>
-        {renderImage({ props, image, isVisible })}
+        {renderImage({ props, image, isVisible, descriptionMaxHeight })}
       </div>
     </div>
     </div>
