@@ -2117,6 +2117,7 @@ var ImageContainer = function ImageContainer(props) {
       estimateImageHeight = image.height;
     }
     descriptionMaxHeight -= estimateImageHeight - 26;
+    console.log("Estimate image height: ", estimateImageHeight);
     console.log(descriptionMaxHeight);
     return descriptionMaxHeight;
   };
