@@ -15,6 +15,8 @@ function renderImage ({ props, image, isVisible }) {
     showThumbnails,
     } = props;
 
+    console.log(props)
+
   let srcset;
   let sizes;
 
