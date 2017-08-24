@@ -2216,9 +2216,13 @@ function Footer(_ref, _ref2) {
 
 	console.log("Description: ", descriptionMaxHeight);
 
+	var descriptionStyle = {
+		maxHeight: descriptionMaxHeight + 'px'
+	};
+
 	return _react2['default'].createElement(
 		'div',
-		_extends({ className: 'desc_container ' + (0, _aphroditeNoImportant.css)(classes.footer) }, props),
+		_extends({ className: 'desc_container ' + (0, _aphroditeNoImportant.css)(classes.footer) }, props, { style: descriptionStyle }),
 		caption ? _react2['default'].createElement(
 			'div',
 			{ className: 'footerBackground' },

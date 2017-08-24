@@ -28,8 +28,12 @@ function Footer ({
 
 	console.log("Description: ", descriptionMaxHeight);
 
+	const descriptionStyle = {
+		maxHeight: descriptionMaxHeight + 'px'
+	}
+
 	return (
-		<div className={'desc_container ' + css(classes.footer)} {...props}>
+		<div className={'desc_container ' + css(classes.footer)} {...props} style={descriptionStyle}>
 			{caption ? (
 				<div className="footerBackground">
 					<figcaption id="photoDescription" className={'lightbox_image_caption ' + css(classes.footerCaption)} dangerouslySetInnerHTML={{ __html: caption }}>
