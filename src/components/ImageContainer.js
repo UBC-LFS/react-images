@@ -80,7 +80,7 @@ const ImageContainer = (props) => {
     } else {
       estimateImageHeight = image.height;
     }
-    descriptionMaxHeight -= estimateImageHeight - 26;
+    descriptionMaxHeight -= (estimateImageHeight + 5);
     console.log("Estimate image height: ", estimateImageHeight);
     console.log(descriptionMaxHeight);
     return descriptionMaxHeight;
